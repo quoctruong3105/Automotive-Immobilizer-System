@@ -1,0 +1,27 @@
+RAM Allocation
+Variable                                                          Address   Size
+--------------------------------------------------------------------------------
+ID                                                                0x034B       8
+rx_buffer0                                                        0x0353       8
+tx_buffer0                                                        0x035B       8
+_base_y                                                           0x0363       4
+_lcd_maxx                                                         0x0367       1
+
+EEPROM Allocation
+Variable                                                          Address   Size
+--------------------------------------------------------------------------------
+
+Register Allocation
+Variable                                                          Register  Size
+--------------------------------------------------------------------------------
+timeEnterPassWord                                                 R3,R4        2
+i                                                                 R5,R6        2
+rx_wr_index0                                                      R8           1
+rx_rd_index0                                                      R7           1
+rx_counter0                                                       R10          1
+rx_buffer_overflow0                                               GPIOR0.0  1bit
+tx_wr_index0                                                      R9           1
+tx_rd_index0                                                      R12          1
+tx_counter0                                                       R11          1
+_lcd_x                                                            R14          1
+_lcd_y                                                            R13          1

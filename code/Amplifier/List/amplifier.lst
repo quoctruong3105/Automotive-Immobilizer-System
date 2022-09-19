@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.30  E:\Smart key System\code\Amplifier\List\amplifier.asm Wed Sep 14 06:46:32 2022
+AVRASM ver. 2.1.30  E:\Smart key System\code\Amplifier\List\amplifier.asm Mon Sep 19 08:13:32 2022
 
 E:\Smart key System\code\Amplifier\List\amplifier.asm(1061): warning: Register r3 already defined by the .DEF directive
                  
@@ -1250,10 +1250,10 @@ E:\Smart key System\code\Amplifier\List\amplifier.asm(1106): warning: .cseg .db 
                  ; 0000 000A     PORTB.2 = 0;
                  ;	data -> Y+0
 000087 982a      	CBI  0x5,2
-                 ; 0000 000B     SPDR =  data;
+                 ; 0000 000B     SPDR = data;
 000088 81e8      	LD   R30,Y
 000089 bdee      	OUT  0x2E,R30
-                 ; 0000 000C     while(SPSR == 0x00){};
+                 ; 0000 000C     while(SPSR == 0x00) {};
                  _0x5:
 00008a b5ed      	IN   R30,0x2D
 00008b 30e0      	CPI  R30,0
@@ -1280,7 +1280,7 @@ E:\Smart key System\code\Amplifier\List\amplifier.asm(1106): warning: .cseg .db 
                  _checkpad:
                  ; 0000 0019     unsigned int i, j, keyin;
                  ; 0000 001A     for(i = 0; i < 4; i++)
-000090 940e 012f 	CALL __SAVELOCR6
+000090 940e 0121 	CALL __SAVELOCR6
                  ;	i -> R16,R17
                  ;	j -> R18,R19
                  ;	keyin -> R20,R21
@@ -1301,10 +1301,10 @@ E:\Smart key System\code\Amplifier\List\amplifier.asm(1106): warning: .cseg .db 
 000099 9634      	ADIW R30,4
 00009a e0a1      	LDI  R26,LOW(1)
 00009b e0b0      	LDI  R27,HIGH(1)
-00009c 940e 0114 	CALL __LSLW12
+00009c 940e 0106 	CALL __LSLW12
 00009e efaf      	LDI  R26,LOW(255)
 00009f e0b0      	LDI  R27,HIGH(255)
-0000a0 940e 0128 	CALL __SWAPW12
+0000a0 940e 011a 	CALL __SWAPW12
 0000a2 1bea      	SUB  R30,R26
 0000a3 0bfb      	SBC  R31,R27
 0000a4 b9eb      	OUT  0xB,R30
@@ -1344,19 +1344,19 @@ E:\Smart key System\code\Amplifier\List\amplifier.asm(1106): warning: .cseg .db 
 0000b7 01f9      	MOVW R30,R18
 0000b8 e0a0      	LDI  R26,LOW(_scan_code)
 0000b9 e0b3      	LDI  R27,HIGH(_scan_code)
-0000ba d046      	RCALL SUBOPT_0x0
+0000ba d038      	RCALL SUBOPT_0x0
 0000bb 17e4      	CP   R30,R20
 0000bc 07f5      	CPC  R31,R21
 0000bd f449      	BRNE _0x13
                  ; 0000 0024                 {
                  ; 0000 0025                     return ascii_code[j][i];
 0000be 01f9      	MOVW R30,R18
-0000bf 940e 011d 	CALL __LSLW3
+0000bf 940e 010f 	CALL __LSLW3
 0000c1 5fe8      	SUBI R30,LOW(-_ascii_code)
 0000c2 4ffc      	SBCI R31,HIGH(-_ascii_code)
 0000c3 01df      	MOVW R26,R30
 0000c4 01f8      	MOVW R30,R16
-0000c5 d03b      	RCALL SUBOPT_0x0
+0000c5 d02d      	RCALL SUBOPT_0x0
 0000c6 c006      	RJMP _0x2000001
                  ; 0000 0026                 }
                  ; 0000 0027             }
@@ -1378,7 +1378,7 @@ E:\Smart key System\code\Amplifier\List\amplifier.asm(1106): warning: .cseg .db 
                  _0xE:
                  ; 0000 002A }
                  _0x2000001:
-0000cd 940e 0136 	CALL __LOADLOCR6
+0000cd 940e 0128 	CALL __LOADLOCR6
 0000cf 9626      	ADIW R28,6
 0000d0 9508      	RET
                  ;
@@ -1398,77 +1398,60 @@ E:\Smart key System\code\Amplifier\List\amplifier.asm(1106): warning: .cseg .db 
                  ; 0000 0034 #pragma optsize+
                  ; 0000 0035 #endif
                  ; 0000 0036 
-                 ; 0000 0037 // USART initialization
-                 ; 0000 0038 UCSR0A=0x00;
-0000d7 93e0 00c0 	STS  192,R30
-                 ; 0000 0039 UCSR0B=0x48;
-0000d9 e4e8      	LDI  R30,LOW(72)
-0000da 93e0 00c1 	STS  193,R30
-                 ; 0000 003A UCSR0C=0x06;
-0000dc e0e6      	LDI  R30,LOW(6)
-0000dd 93e0 00c2 	STS  194,R30
-                 ; 0000 003B UBRR0H=0x00;
-0000df e0e0      	LDI  R30,LOW(0)
-0000e0 93e0 00c5 	STS  197,R30
-                 ; 0000 003C UBRR0L=0x08;
-0000e2 e0e8      	LDI  R30,LOW(8)
-0000e3 93e0 00c4 	STS  196,R30
-                 ; 0000 003D 
+                 ; 0000 0037 // Khai bao huong cho cac chan ket noi KeyPad
+                 ; 0000 0038 KEYPAD_DDR = 0xF0;
+0000d7 efe0      	LDI  R30,LOW(240)
+0000d8 b9ea      	OUT  0xA,R30
+                 ; 0000 0039 KEYPAD_PORT = 0x0F;
+0000d9 e0ef      	LDI  R30,LOW(15)
+0000da b9eb      	OUT  0xB,R30
+                 ; 0000 003A 
+                 ; 0000 003B // SPI initialization
+                 ; 0000 003C SPCR=0b01010011;
+0000db e5e3      	LDI  R30,LOW(83)
+0000dc bdec      	OUT  0x2C,R30
+                 ; 0000 003D SPSR=0x00;
+0000dd e0e0      	LDI  R30,LOW(0)
+0000de bded      	OUT  0x2D,R30
                  ; 0000 003E 
-                 ; 0000 003F //Khai bao huong cho cac chan ket noi KeyPad
-                 ; 0000 0040 KEYPAD_DDR = 0xF0;
-0000e5 efe0      	LDI  R30,LOW(240)
-0000e6 b9ea      	OUT  0xA,R30
-                 ; 0000 0041 KEYPAD_PORT = 0x0F;
-0000e7 e0ef      	LDI  R30,LOW(15)
-0000e8 b9eb      	OUT  0xB,R30
+                 ; 0000 003F // Set up port for Master
+                 ; 0000 0040 DDRB = 0b00101100;
+0000df e2ec      	LDI  R30,LOW(44)
+0000e0 b9e4      	OUT  0x4,R30
+                 ; 0000 0041 PORTB = 0b00010100;
+0000e1 e1e4      	LDI  R30,LOW(20)
+0000e2 b9e5      	OUT  0x5,R30
                  ; 0000 0042 
-                 ; 0000 0043 // SPI initialization
-                 ; 0000 0044 SPCR=0b01010011;
-0000e9 e5e3      	LDI  R30,LOW(83)
-0000ea bdec      	OUT  0x2C,R30
-                 ; 0000 0045 SPSR=0x00;
-0000eb e0e0      	LDI  R30,LOW(0)
-0000ec bded      	OUT  0x2D,R30
-                 ; 0000 0046 
-                 ; 0000 0047 //  Set up port for Master
-                 ; 0000 0048 DDRB = 0b00101100;
-0000ed e2ec      	LDI  R30,LOW(44)
-0000ee b9e4      	OUT  0x4,R30
-                 ; 0000 0049 PORTB = 0b00010100;
-0000ef e1e4      	LDI  R30,LOW(20)
-0000f0 b9e5      	OUT  0x5,R30
-                 ; 0000 004A 
-                 ; 0000 004B while (1)
+                 ; 0000 0043 while (1)
                  _0x14:
-                 ; 0000 004C       {
-                 ; 0000 004D         key = checkpad(); // Read keypad
-0000f1 df9e      	RCALL _checkpad
+                 ; 0000 0044       {
+                 ; 0000 0045         key = checkpad(); // Read keypad
+0000e3 dfac      	RCALL _checkpad
                 +
-0000f2 2e3e     +MOV R3 , R30
-0000f3 2e4f     +MOV R4 , R31
+0000e4 2e3e     +MOV R3 , R30
+0000e5 2e4f     +MOV R4 , R31
                  	__PUTW1R 3,4
-                 ; 0000 004E         if(key)
-0000f4 2c03      	MOV  R0,R3
-0000f5 2804      	OR   R0,R4
-0000f6 f011      	BREQ _0x17
-                 ; 0000 004F         {
-                 ; 0000 0050             transmitData(key);
-0000f7 923a      	ST   -Y,R3
-0000f8 df8e      	RCALL _transmitData
-                 ; 0000 0051         }
-                 ; 0000 0052         delay_ms(200);
+                 ; 0000 0046         if(key)
+0000e6 2c03      	MOV  R0,R3
+0000e7 2804      	OR   R0,R4
+0000e8 f011      	BREQ _0x17
+                 ; 0000 0047         {
+                 ; 0000 0048             transmitData(key);
+0000e9 923a      	ST   -Y,R3
+0000ea df9c      	RCALL _transmitData
+                 ; 0000 0049         }
+                 ; 0000 004A         delay_ms(200);
                  _0x17:
-0000f9 ece8      	LDI  R30,LOW(200)
-0000fa e0f0      	LDI  R31,HIGH(200)
-0000fb 93fa      	ST   -Y,R31
-0000fc 93ea      	ST   -Y,R30
-0000fd 940e 0108 	CALL _delay_ms
-                 ; 0000 0053       }
-0000ff cff1      	RJMP _0x14
-                 ; 0000 0054 }
+0000eb ece8      	LDI  R30,LOW(200)
+0000ec e0f0      	LDI  R31,HIGH(200)
+0000ed 93fa      	ST   -Y,R31
+0000ee 93ea      	ST   -Y,R30
+0000ef 940e 00fa 	CALL _delay_ms
+                 ; 0000 004B       }
+0000f1 cff1      	RJMP _0x14
+                 ; 0000 004C }
                  _0x18:
-000100 cfff      	RJMP _0x18
+0000f2 cfff      	RJMP _0x18
                  
                  	.DSEG
                  _scan_code:
@@ -1479,99 +1462,99 @@ E:\Smart key System\code\Amplifier\List\amplifier.asm(1106): warning: .cseg .db 
                  	.CSEG
                  ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
                  SUBOPT_0x0:
-000101 0fee      	LSL  R30
-000102 1fff      	ROL  R31
-000103 0fae      	ADD  R26,R30
-000104 1fbf      	ADC  R27,R31
-000105 940e 0124 	CALL __GETW1P
-000107 9508      	RET
+0000f3 0fee      	LSL  R30
+0000f4 1fff      	ROL  R31
+0000f5 0fae      	ADD  R26,R30
+0000f6 1fbf      	ADC  R27,R31
+0000f7 940e 0116 	CALL __GETW1P
+0000f9 9508      	RET
                  
                  
                  	.CSEG
                  _delay_ms:
-000108 91e9      	ld   r30,y+
-000109 91f9      	ld   r31,y+
-00010a 9630      	adiw r30,0
-00010b f039      	breq __delay_ms1
+0000fa 91e9      	ld   r30,y+
+0000fb 91f9      	ld   r31,y+
+0000fc 9630      	adiw r30,0
+0000fd f039      	breq __delay_ms1
                  __delay_ms0:
                 +
-00010c ed80     +LDI R24 , LOW ( 0x7D0 )
-00010d e097     +LDI R25 , HIGH ( 0x7D0 )
+0000fe ed80     +LDI R24 , LOW ( 0x7D0 )
+0000ff e097     +LDI R25 , HIGH ( 0x7D0 )
                 +__DELAY_USW_LOOP :
-00010e 9701     +SBIW R24 , 1
-00010f f7f1     +BRNE __DELAY_USW_LOOP
+000100 9701     +SBIW R24 , 1
+000101 f7f1     +BRNE __DELAY_USW_LOOP
                  	__DELAY_USW 0x7D0
-000110 95a8      	wdr
-000111 9731      	sbiw r30,1
-000112 f7c9      	brne __delay_ms0
+000102 95a8      	wdr
+000103 9731      	sbiw r30,1
+000104 f7c9      	brne __delay_ms0
                  __delay_ms1:
-000113 9508      	ret
+000105 9508      	ret
                  
                  __LSLW12:
-000114 23ee      	TST  R30
-000115 2e0e      	MOV  R0,R30
-000116 01fd      	MOVW R30,R26
-000117 f021      	BREQ __LSLW12R
+000106 23ee      	TST  R30
+000107 2e0e      	MOV  R0,R30
+000108 01fd      	MOVW R30,R26
+000109 f021      	BREQ __LSLW12R
                  __LSLW12L:
-000118 0fee      	LSL  R30
-000119 1fff      	ROL  R31
-00011a 940a      	DEC  R0
-00011b f7e1      	BRNE __LSLW12L
+00010a 0fee      	LSL  R30
+00010b 1fff      	ROL  R31
+00010c 940a      	DEC  R0
+00010d f7e1      	BRNE __LSLW12L
                  __LSLW12R:
-00011c 9508      	RET
+00010e 9508      	RET
                  
                  __LSLW3:
-00011d 0fee      	LSL  R30
-00011e 1fff      	ROL  R31
+00010f 0fee      	LSL  R30
+000110 1fff      	ROL  R31
                  __LSLW2:
-00011f 0fee      	LSL  R30
-000120 1fff      	ROL  R31
-000121 0fee      	LSL  R30
-000122 1fff      	ROL  R31
-000123 9508      	RET
+000111 0fee      	LSL  R30
+000112 1fff      	ROL  R31
+000113 0fee      	LSL  R30
+000114 1fff      	ROL  R31
+000115 9508      	RET
                  
                  __GETW1P:
-000124 91ed      	LD   R30,X+
-000125 91fc      	LD   R31,X
-000126 9711      	SBIW R26,1
-000127 9508      	RET
+000116 91ed      	LD   R30,X+
+000117 91fc      	LD   R31,X
+000118 9711      	SBIW R26,1
+000119 9508      	RET
                  
                  __SWAPW12:
-000128 2e1b      	MOV  R1,R27
-000129 2fbf      	MOV  R27,R31
-00012a 2df1      	MOV  R31,R1
+00011a 2e1b      	MOV  R1,R27
+00011b 2fbf      	MOV  R27,R31
+00011c 2df1      	MOV  R31,R1
                  
                  __SWAPB12:
-00012b 2e1a      	MOV  R1,R26
-00012c 2fae      	MOV  R26,R30
-00012d 2de1      	MOV  R30,R1
-00012e 9508      	RET
+00011d 2e1a      	MOV  R1,R26
+00011e 2fae      	MOV  R26,R30
+00011f 2de1      	MOV  R30,R1
+000120 9508      	RET
                  
                  __SAVELOCR6:
-00012f 935a      	ST   -Y,R21
+000121 935a      	ST   -Y,R21
                  __SAVELOCR5:
-000130 934a      	ST   -Y,R20
+000122 934a      	ST   -Y,R20
                  __SAVELOCR4:
-000131 933a      	ST   -Y,R19
+000123 933a      	ST   -Y,R19
                  __SAVELOCR3:
-000132 932a      	ST   -Y,R18
+000124 932a      	ST   -Y,R18
                  __SAVELOCR2:
-000133 931a      	ST   -Y,R17
-000134 930a      	ST   -Y,R16
-000135 9508      	RET
+000125 931a      	ST   -Y,R17
+000126 930a      	ST   -Y,R16
+000127 9508      	RET
                  
                  __LOADLOCR6:
-000136 815d      	LDD  R21,Y+5
+000128 815d      	LDD  R21,Y+5
                  __LOADLOCR5:
-000137 814c      	LDD  R20,Y+4
+000129 814c      	LDD  R20,Y+4
                  __LOADLOCR4:
-000138 813b      	LDD  R19,Y+3
+00012a 813b      	LDD  R19,Y+3
                  __LOADLOCR3:
-000139 812a      	LDD  R18,Y+2
+00012b 812a      	LDD  R18,Y+2
                  __LOADLOCR2:
-00013a 8119      	LDD  R17,Y+1
-00013b 8108      	LD   R16,Y
-00013c 9508      	RET
+00012c 8119      	LDD  R17,Y+1
+00012d 8108      	LD   R16,Y
+00012e 9508      	RET
                  
                  ;END OF CODE MARKER
                  __END_OF_CODE:
@@ -1595,7 +1578,7 @@ ATmega328P register use summary:
 r0 :   8 r1 :   5 r2 :   0 r3 :   3 r4 :   2 r5 :   0 r6 :   0 r7 :   0 
 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 r13:   0 r14:   0 r15:   0 
 r16:   7 r17:   5 r18:   7 r19:   5 r20:   5 r21:   5 r22:   2 r23:   0 
-r24:  11 r25:   3 r26:  16 r27:  10 r28:   3 r29:   1 r30:  82 r31:  23 
+r24:  11 r25:   3 r26:  16 r27:  10 r28:   3 r29:   1 r30:  73 r31:  23 
 x  :   5 y  :  18 z  :   7 
 Registers used: 22 out of 35 (62.9%)
 
@@ -1610,7 +1593,7 @@ cbi   :   1 cbr   :   1 clc   :   0 clh   :   0 cli   :   1 cln   :   0
 clr   :   3 cls   :   0 clt   :   0 clv   :   0 clz   :   0 com   :   0 
 cp    :   2 cpc   :   4 cpi   :   3 cpse  :   0 dec   :   3 des   :   0 
 eor   :   0 fmul  :   0 fmuls :   0 fmulsu:   0 icall :   0 ijmp  :   0 
-in    :   3 inc   :   0 jmp   :  27 ld    :   6 ldd   :   5 ldi   :  46 
+in    :   3 inc   :   0 jmp   :  27 ld    :   6 ldd   :   5 ldi   :  42 
 lds   :   0 lpm   :   7 lsl   :   5 lsr   :   0 mov   :  11 movw  :   9 
 mul   :   0 muls  :   0 mulsu :   0 neg   :   0 nop   :   0 or    :   1 
 ori   :   0 out   :  15 pop   :   0 push  :   0 rcall :   4 ret   :  10 
@@ -1618,14 +1601,14 @@ reti  :   0 rjmp  :   6 rol   :   5 ror   :   0 sbc   :   1 sbci  :   3
 sbi   :   1 sbic  :   0 sbis  :   0 sbiw  :   6 sbr   :   0 sbrc  :   0 
 sbrs  :   0 sec   :   0 seh   :   0 sei   :   0 sen   :   0 ser   :   0 
 ses   :   0 set   :   0 sev   :   0 sez   :   0 sleep :   0 spm   :   0 
-st    :  12 std   :   0 sts   :   9 sub   :   1 subi  :   3 swap  :   0 
+st    :  12 std   :   0 sts   :   4 sub   :   1 subi  :   3 swap  :   0 
 tst   :   1 wdr   :   2 
 Instructions used: 41 out of 116 (35.3%)
 
 ATmega328P memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x00027a    580     54    634   32768   1.9%
+[.cseg] 0x000000 0x00025e    552     54    606   32768   1.8%
 [.dseg] 0x000100 0x000328      0     40     40    2303   1.7%
 [.eseg] 0x000000 0x000000      0      0      0    1024   0.0%
 

@@ -226,16 +226,7 @@
 ;PCODE: $00000067 VOL: 0
 ;PCODE: $00000068 VOL: 0
 ; 0000 006C     }
-; 0000 006D //    for(i = 1; i < 5; i++)
-; 0000 006E //    {
-; 0000 006F //        if(curSparkPlug == SparkPlug[i])
-; 0000 0070 //        {
-; 0000 0071 //            Igt[i] = ON;
-; 0000 0072 //            delay_ms(200);
-; 0000 0073 //            Igt[i] = OFF;
-; 0000 0074 //        }
-; 0000 0075 //    }
-; 0000 0076 }
+; 0000 006D }
 ;PCODE: $00000069 VOL: 0
 ;PCODE: $0000006A VOL: 0
 ;PCODE: $0000006B VOL: 0
@@ -259,58 +250,58 @@
 ;
 ;// USART Receiver interrupt service routine
 ;interrupt [USART_RXC] void usart_rx_isr(void)
-; 0000 0087 {
+; 0000 007E {
 ;PCODE: $00000070 VOL: 0
 ;PCODE: $00000071 VOL: 0
-; 0000 0088 char status,data;
-; 0000 0089 status=UCSR0A;
+; 0000 007F char status,data;
+; 0000 0080 status=UCSR0A;
 ;PCODE: $00000072 VOL: 0
 ;PCODE: $00000073 VOL: 0
 ;	status -> R17
 ;	data -> R16
 ;PCODE: $00000074 VOL: 0
 ;PCODE: $00000075 VOL: 0
-; 0000 008A data=UDR0;
+; 0000 0081 data=UDR0;
 ;PCODE: $00000076 VOL: 0
 ;PCODE: $00000077 VOL: 0
-; 0000 008B if ((status & (FRAMING_ERROR | PARITY_ERROR | DATA_OVERRUN))==0)
+; 0000 0082 if ((status & (FRAMING_ERROR | PARITY_ERROR | DATA_OVERRUN))==0)
 ;PCODE: $00000078 VOL: 0
 ;PCODE: $00000079 VOL: 0
 ;PCODE: $0000007A VOL: 0
-; 0000 008C    {
-; 0000 008D    rx_buffer0[rx_wr_index0++]=data;
+; 0000 0083    {
+; 0000 0084    rx_buffer0[rx_wr_index0++]=data;
 ;PCODE: $0000007B VOL: 0
 ;PCODE: $0000007C VOL: 0
 ;PCODE: $0000007D VOL: 0
 ;PCODE: $0000007E VOL: 0
 ;PCODE: $0000007F VOL: 0
-; 0000 008E #if RX_BUFFER_SIZE0 == 256
-; 0000 008F    // special case for receiver buffer size=256
-; 0000 0090    if (++rx_counter0 == 0)
-; 0000 0091       {
-; 0000 0092 #else
-; 0000 0093    if (rx_wr_index0 == RX_BUFFER_SIZE0) rx_wr_index0=0;
+; 0000 0085 #if RX_BUFFER_SIZE0 == 256
+; 0000 0086    // special case for receiver buffer size=256
+; 0000 0087    if (++rx_counter0 == 0)
+; 0000 0088       {
+; 0000 0089 #else
+; 0000 008A    if (rx_wr_index0 == RX_BUFFER_SIZE0) rx_wr_index0=0;
 ;PCODE: $00000080 VOL: 0
 ;PCODE: $00000081 VOL: 0
 ;PCODE: $00000082 VOL: 0
 ;PCODE: $00000083 VOL: 0
-; 0000 0094    if (++rx_counter0 == RX_BUFFER_SIZE0)
+; 0000 008B    if (++rx_counter0 == RX_BUFFER_SIZE0)
 ;PCODE: $00000084 VOL: 0
 ;PCODE: $00000085 VOL: 0
 ;PCODE: $00000086 VOL: 0
 ;PCODE: $00000087 VOL: 0
 ;PCODE: $00000088 VOL: 0
-; 0000 0095       {
-; 0000 0096       rx_counter0=0;
+; 0000 008C       {
+; 0000 008D       rx_counter0=0;
 ;PCODE: $00000089 VOL: 0
-; 0000 0097 #endif
-; 0000 0098       rx_buffer_overflow0=1;
+; 0000 008E #endif
+; 0000 008F       rx_buffer_overflow0=1;
 ;PCODE: $0000008A VOL: 0
 ;PCODE: $0000008B VOL: 0
-; 0000 0099       }
-; 0000 009A    }
+; 0000 0090       }
+; 0000 0091    }
 ;PCODE: $0000008C VOL: 0
-; 0000 009B }
+; 0000 0092 }
 ;PCODE: $0000008D VOL: 0
 ;PCODE: $0000008E VOL: 0
 ;PCODE: $0000008F VOL: 0
@@ -322,11 +313,11 @@
 ;#define _ALTERNATE_GETCHAR_
 ;#pragma used+
 ;char getchar(void)
-; 0000 00A2 {
+; 0000 0099 {
 ;PCODE: $00000092 VOL: 0
 ;PCODE: $00000093 VOL: 0
-; 0000 00A3 char data;
-; 0000 00A4 while (rx_counter0==0);
+; 0000 009A char data;
+; 0000 009B while (rx_counter0==0);
 ;PCODE: $00000094 VOL: 0
 ;	data -> R17
 ;PCODE: $00000095 VOL: 0
@@ -334,35 +325,35 @@
 ;PCODE: $00000097 VOL: 0
 ;PCODE: $00000098 VOL: 0
 ;PCODE: $00000099 VOL: 0
-; 0000 00A5 data=rx_buffer0[rx_rd_index0++];
+; 0000 009C data=rx_buffer0[rx_rd_index0++];
 ;PCODE: $0000009A VOL: 0
 ;PCODE: $0000009B VOL: 0
 ;PCODE: $0000009C VOL: 0
 ;PCODE: $0000009D VOL: 0
 ;PCODE: $0000009E VOL: 0
-; 0000 00A6 #if RX_BUFFER_SIZE0 != 256
-; 0000 00A7 if (rx_rd_index0 == RX_BUFFER_SIZE0) rx_rd_index0=0;
+; 0000 009D #if RX_BUFFER_SIZE0 != 256
+; 0000 009E if (rx_rd_index0 == RX_BUFFER_SIZE0) rx_rd_index0=0;
 ;PCODE: $0000009F VOL: 0
 ;PCODE: $000000A0 VOL: 0
 ;PCODE: $000000A1 VOL: 0
 ;PCODE: $000000A2 VOL: 0
-; 0000 00A8 #endif
-; 0000 00A9 #asm("cli")
+; 0000 009F #endif
+; 0000 00A0 #asm("cli")
 ;PCODE: $000000A3 VOL: 0
 ;PCODE: $000000A4 VOL: 0
 	cli
 ;PCODE: $000000A5 VOL: 0
-; 0000 00AA --rx_counter0;
+; 0000 00A1 --rx_counter0;
 ;PCODE: $000000A6 VOL: 0
-; 0000 00AB #asm("sei")
+; 0000 00A2 #asm("sei")
 ;PCODE: $000000A7 VOL: 0
 	sei
 ;PCODE: $000000A8 VOL: 0
-; 0000 00AC return data;
+; 0000 00A3 return data;
 ;PCODE: $000000A9 VOL: 0
 ;PCODE: $000000AA VOL: 0
 ;PCODE: $000000AB VOL: 0
-; 0000 00AD }
+; 0000 00A4 }
 ;PCODE: $000000AC VOL: 0
 ;#pragma used-
 ;#endif
@@ -379,32 +370,32 @@
 ;
 ;// USART Transmitter interrupt service routine
 ;interrupt [USART_TXC] void usart_tx_isr(void)
-; 0000 00BD {
+; 0000 00B4 {
 ;PCODE: $000000AD VOL: 0
 ;PCODE: $000000AE VOL: 0
-; 0000 00BE if (tx_counter0)
+; 0000 00B5 if (tx_counter0)
 ;PCODE: $000000AF VOL: 0
 ;PCODE: $000000B0 VOL: 0
-; 0000 00BF    {
-; 0000 00C0    --tx_counter0;
+; 0000 00B6    {
+; 0000 00B7    --tx_counter0;
 ;PCODE: $000000B1 VOL: 0
-; 0000 00C1    UDR0=tx_buffer0[tx_rd_index0++];
+; 0000 00B8    UDR0=tx_buffer0[tx_rd_index0++];
 ;PCODE: $000000B2 VOL: 0
 ;PCODE: $000000B3 VOL: 0
 ;PCODE: $000000B4 VOL: 0
 ;PCODE: $000000B5 VOL: 0
 ;PCODE: $000000B6 VOL: 0
 ;PCODE: $000000B7 VOL: 0
-; 0000 00C2 #if TX_BUFFER_SIZE0 != 256
-; 0000 00C3    if (tx_rd_index0 == TX_BUFFER_SIZE0) tx_rd_index0=0;
+; 0000 00B9 #if TX_BUFFER_SIZE0 != 256
+; 0000 00BA    if (tx_rd_index0 == TX_BUFFER_SIZE0) tx_rd_index0=0;
 ;PCODE: $000000B8 VOL: 0
 ;PCODE: $000000B9 VOL: 0
 ;PCODE: $000000BA VOL: 0
 ;PCODE: $000000BB VOL: 0
-; 0000 00C4 #endif
-; 0000 00C5    }
+; 0000 00BB #endif
+; 0000 00BC    }
 ;PCODE: $000000BC VOL: 0
-; 0000 00C6 }
+; 0000 00BD }
 ;PCODE: $000000BD VOL: 0
 ;PCODE: $000000BE VOL: 0
 ;PCODE: $000000BF VOL: 0
@@ -415,10 +406,10 @@
 ;#define _ALTERNATE_PUTCHAR_
 ;#pragma used+
 ;void putchar(char c)
-; 0000 00CD {
+; 0000 00C4 {
 ;PCODE: $000000C1 VOL: 0
 ;PCODE: $000000C2 VOL: 0
-; 0000 00CE while (tx_counter0 == TX_BUFFER_SIZE0);
+; 0000 00C5 while (tx_counter0 == TX_BUFFER_SIZE0);
 ;	c -> Y+0
 ;PCODE: $000000C3 VOL: 0
 ;PCODE: $000000C4 VOL: 0
@@ -426,11 +417,11 @@
 ;PCODE: $000000C6 VOL: 0
 ;PCODE: $000000C7 VOL: 0
 ;PCODE: $000000C8 VOL: 0
-; 0000 00CF #asm("cli")
+; 0000 00C6 #asm("cli")
 ;PCODE: $000000C9 VOL: 0
 	cli
 ;PCODE: $000000CA VOL: 0
-; 0000 00D0 if (tx_counter0 || ((UCSR0A & DATA_REGISTER_EMPTY)==0))
+; 0000 00C7 if (tx_counter0 || ((UCSR0A & DATA_REGISTER_EMPTY)==0))
 ;PCODE: $000000CB VOL: 0
 ;PCODE: $000000CC VOL: 0
 ;PCODE: $000000CD VOL: 0
@@ -438,37 +429,37 @@
 ;PCODE: $000000CF VOL: 0
 ;PCODE: $000000D0 VOL: 0
 ;PCODE: $000000D1 VOL: 0
-; 0000 00D1    {
-; 0000 00D2    tx_buffer0[tx_wr_index0++]=c;
+; 0000 00C8    {
+; 0000 00C9    tx_buffer0[tx_wr_index0++]=c;
 ;PCODE: $000000D2 VOL: 0
 ;PCODE: $000000D3 VOL: 0
 ;PCODE: $000000D4 VOL: 0
 ;PCODE: $000000D5 VOL: 0
 ;PCODE: $000000D6 VOL: 0
 ;PCODE: $000000D7 VOL: 0
-; 0000 00D3 #if TX_BUFFER_SIZE0 != 256
-; 0000 00D4    if (tx_wr_index0 == TX_BUFFER_SIZE0) tx_wr_index0=0;
+; 0000 00CA #if TX_BUFFER_SIZE0 != 256
+; 0000 00CB    if (tx_wr_index0 == TX_BUFFER_SIZE0) tx_wr_index0=0;
 ;PCODE: $000000D8 VOL: 0
 ;PCODE: $000000D9 VOL: 0
 ;PCODE: $000000DA VOL: 0
 ;PCODE: $000000DB VOL: 0
-; 0000 00D5 #endif
-; 0000 00D6    ++tx_counter0;
+; 0000 00CC #endif
+; 0000 00CD    ++tx_counter0;
 ;PCODE: $000000DC VOL: 0
 ;PCODE: $000000DD VOL: 0
-; 0000 00D7    }
-; 0000 00D8 else
+; 0000 00CE    }
+; 0000 00CF else
 ;PCODE: $000000DE VOL: 0
 ;PCODE: $000000DF VOL: 0
-; 0000 00D9    UDR0=c;
+; 0000 00D0    UDR0=c;
 ;PCODE: $000000E0 VOL: 0
 ;PCODE: $000000E1 VOL: 0
-; 0000 00DA #asm("sei")
+; 0000 00D1 #asm("sei")
 ;PCODE: $000000E2 VOL: 0
 ;PCODE: $000000E3 VOL: 0
 	sei
 ;PCODE: $000000E4 VOL: 0
-; 0000 00DB }
+; 0000 00D2 }
 ;PCODE: $000000E5 VOL: 0
 ;PCODE: $000000E6 VOL: 0
 ;PCODE: $000000E7 VOL: 0
@@ -477,102 +468,102 @@
 ;
 ;
 ;void main(void)
-; 0000 00E1 {
+; 0000 00D8 {
 ;PCODE: $000000E8 VOL: 0
-; 0000 00E2 
-; 0000 00E3 // Crystal Oscillator division factor: 1
-; 0000 00E4 #pragma optsize-
-; 0000 00E5 CLKPR=0x80;
+; 0000 00D9 
+; 0000 00DA // Crystal Oscillator division factor: 1
+; 0000 00DB #pragma optsize-
+; 0000 00DC CLKPR=0x80;
 ;PCODE: $000000E9 VOL: 0
 ;PCODE: $000000EA VOL: 0
-; 0000 00E6 CLKPR=0x00;
+; 0000 00DD CLKPR=0x00;
 ;PCODE: $000000EB VOL: 0
 ;PCODE: $000000EC VOL: 0
-; 0000 00E7 #ifdef _OPTIMIZE_SIZE_
-; 0000 00E8 #pragma optsize+
-; 0000 00E9 #endif
-; 0000 00EA 
-; 0000 00EB // External Interrupt(s) initialization
-; 0000 00EC EICRA=0x0A;
+; 0000 00DE #ifdef _OPTIMIZE_SIZE_
+; 0000 00DF #pragma optsize+
+; 0000 00E0 #endif
+; 0000 00E1 
+; 0000 00E2 // External Interrupt(s) initialization
+; 0000 00E3 EICRA=0x0A;
 ;PCODE: $000000ED VOL: 0
 ;PCODE: $000000EE VOL: 0
-; 0000 00ED EIMSK=0x00;
+; 0000 00E4 EIMSK=0x00;
 ;PCODE: $000000EF VOL: 0
 ;PCODE: $000000F0 VOL: 0
-; 0000 00EE EIFR=0x03;
+; 0000 00E5 EIFR=0x03;
 ;PCODE: $000000F1 VOL: 0
 ;PCODE: $000000F2 VOL: 0
-; 0000 00EF 
-; 0000 00F0 // USART initialization
-; 0000 00F1 UCSR0A=0x00;
+; 0000 00E6 
+; 0000 00E7 // USART initialization
+; 0000 00E8 UCSR0A=0x00;
 ;PCODE: $000000F3 VOL: 0
 ;PCODE: $000000F4 VOL: 0
-; 0000 00F2 UCSR0B=0xD8;
+; 0000 00E9 UCSR0B=0xD8;
 ;PCODE: $000000F5 VOL: 0
 ;PCODE: $000000F6 VOL: 0
-; 0000 00F3 UCSR0C=0x06;
+; 0000 00EA UCSR0C=0x06;
 ;PCODE: $000000F7 VOL: 0
 ;PCODE: $000000F8 VOL: 0
-; 0000 00F4 UBRR0H=0x00;
+; 0000 00EB UBRR0H=0x00;
 ;PCODE: $000000F9 VOL: 0
 ;PCODE: $000000FA VOL: 0
-; 0000 00F5 UBRR0L=0x08;
+; 0000 00EC UBRR0L=0x08;
 ;PCODE: $000000FB VOL: 0
 ;PCODE: $000000FC VOL: 0
-; 0000 00F6 
-; 0000 00F7 // Out put Ignition signal
-; 0000 00F8 DDRB = 0b11111111;
+; 0000 00ED 
+; 0000 00EE // Out put Ignition signal
+; 0000 00EF DDRB = 0b11111111;
 ;PCODE: $000000FD VOL: 0
 ;PCODE: $000000FE VOL: 0
-; 0000 00F9 PORTB = 0b00000000;
+; 0000 00F0 PORTB = 0b00000000;
 ;PCODE: $000000FF VOL: 0
 ;PCODE: $00000100 VOL: 0
-; 0000 00FA 
-; 0000 00FB #asm("sei")
+; 0000 00F1 
+; 0000 00F2 #asm("sei")
 ;PCODE: $00000101 VOL: 0
 	sei
 ;PCODE: $00000102 VOL: 0
-; 0000 00FC 
-; 0000 00FD while (1)
+; 0000 00F3 
+; 0000 00F4 while (1)
 ;PCODE: $00000103 VOL: 0
-; 0000 00FE       {
-; 0000 00FF         UDR0 = getchar();
+; 0000 00F5       {
+; 0000 00F6         UDR0 = getchar();
 ;PCODE: $00000104 VOL: 0
 ;PCODE: $00000105 VOL: 0
-; 0000 0100         if(UDR0 == 'c')
+; 0000 00F7         if(UDR0 == 'c')
 ;PCODE: $00000106 VOL: 0
 ;PCODE: $00000107 VOL: 0
 ;PCODE: $00000108 VOL: 0
-; 0000 0101         {
-; 0000 0102             EIMSK = 0b00000011;
+; 0000 00F8         {
+; 0000 00F9             EIMSK = 0b00000011;
 ;PCODE: $00000109 VOL: 0
 ;PCODE: $0000010A VOL: 0
-; 0000 0103             putchar('u');
+; 0000 00FA             putchar('u');
 ;PCODE: $0000010B VOL: 0
 ;PCODE: $0000010C VOL: 0
 ;PCODE: $0000010D VOL: 0
-; 0000 0104         }
-; 0000 0105         else if(UDR0 == 'w')
+; 0000 00FB         }
+; 0000 00FC         else if(UDR0 == 'w')
 ;PCODE: $0000010E VOL: 0
 ;PCODE: $0000010F VOL: 0
 ;PCODE: $00000110 VOL: 0
 ;PCODE: $00000111 VOL: 0
 ;PCODE: $00000112 VOL: 0
-; 0000 0106         {
-; 0000 0107             EIMSK = 0b00000000;
+; 0000 00FD         {
+; 0000 00FE             EIMSK = 0b00000000;
 ;PCODE: $00000113 VOL: 0
 ;PCODE: $00000114 VOL: 0
-; 0000 0108             putchar('l');
+; 0000 00FF             putchar('l');
 ;PCODE: $00000115 VOL: 0
 ;PCODE: $00000116 VOL: 0
 ;PCODE: $00000117 VOL: 0
-; 0000 0109         }
-; 0000 010A       }
+; 0000 0100         }
+; 0000 0101       }
 ;PCODE: $00000118 VOL: 0
 ;PCODE: $00000119 VOL: 0
 ;PCODE: $0000011A VOL: 0
 ;PCODE: $0000011B VOL: 0
-; 0000 010B }
+; 0000 0102 }
 ;PCODE: $0000011C VOL: 0
 ;PCODE: $0000011D VOL: 0
 ;PCODE: $0000011E VOL: 0

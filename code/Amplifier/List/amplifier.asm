@@ -1228,10 +1228,10 @@ _transmitData:
 ; 0000 000A     PORTB.2 = 0;
 ;	data -> Y+0
 	CBI  0x5,2
-; 0000 000B     SPDR =  data;
+; 0000 000B     SPDR = data;
 	LD   R30,Y
 	OUT  0x2E,R30
-; 0000 000C     while(SPSR == 0x00){};
+; 0000 000C     while(SPSR == 0x00) {};
 _0x5:
 	IN   R30,0x2D
 	CPI  R30,0
@@ -1351,72 +1351,55 @@ _main:
 ; 0000 0034 #pragma optsize+
 ; 0000 0035 #endif
 ; 0000 0036 
-; 0000 0037 // USART initialization
-; 0000 0038 UCSR0A=0x00;
-	STS  192,R30
-; 0000 0039 UCSR0B=0x48;
-	LDI  R30,LOW(72)
-	STS  193,R30
-; 0000 003A UCSR0C=0x06;
-	LDI  R30,LOW(6)
-	STS  194,R30
-; 0000 003B UBRR0H=0x00;
-	LDI  R30,LOW(0)
-	STS  197,R30
-; 0000 003C UBRR0L=0x08;
-	LDI  R30,LOW(8)
-	STS  196,R30
-; 0000 003D 
-; 0000 003E 
-; 0000 003F //Khai bao huong cho cac chan ket noi KeyPad
-; 0000 0040 KEYPAD_DDR = 0xF0;
+; 0000 0037 // Khai bao huong cho cac chan ket noi KeyPad
+; 0000 0038 KEYPAD_DDR = 0xF0;
 	LDI  R30,LOW(240)
 	OUT  0xA,R30
-; 0000 0041 KEYPAD_PORT = 0x0F;
+; 0000 0039 KEYPAD_PORT = 0x0F;
 	LDI  R30,LOW(15)
 	OUT  0xB,R30
-; 0000 0042 
-; 0000 0043 // SPI initialization
-; 0000 0044 SPCR=0b01010011;
+; 0000 003A 
+; 0000 003B // SPI initialization
+; 0000 003C SPCR=0b01010011;
 	LDI  R30,LOW(83)
 	OUT  0x2C,R30
-; 0000 0045 SPSR=0x00;
+; 0000 003D SPSR=0x00;
 	LDI  R30,LOW(0)
 	OUT  0x2D,R30
-; 0000 0046 
-; 0000 0047 //  Set up port for Master
-; 0000 0048 DDRB = 0b00101100;
+; 0000 003E 
+; 0000 003F // Set up port for Master
+; 0000 0040 DDRB = 0b00101100;
 	LDI  R30,LOW(44)
 	OUT  0x4,R30
-; 0000 0049 PORTB = 0b00010100;
+; 0000 0041 PORTB = 0b00010100;
 	LDI  R30,LOW(20)
 	OUT  0x5,R30
-; 0000 004A 
-; 0000 004B while (1)
+; 0000 0042 
+; 0000 0043 while (1)
 _0x14:
-; 0000 004C       {
-; 0000 004D         key = checkpad(); // Read keypad
+; 0000 0044       {
+; 0000 0045         key = checkpad(); // Read keypad
 	RCALL _checkpad
 	__PUTW1R 3,4
-; 0000 004E         if(key)
+; 0000 0046         if(key)
 	MOV  R0,R3
 	OR   R0,R4
 	BREQ _0x17
-; 0000 004F         {
-; 0000 0050             transmitData(key);
+; 0000 0047         {
+; 0000 0048             transmitData(key);
 	ST   -Y,R3
 	RCALL _transmitData
-; 0000 0051         }
-; 0000 0052         delay_ms(200);
+; 0000 0049         }
+; 0000 004A         delay_ms(200);
 _0x17:
 	LDI  R30,LOW(200)
 	LDI  R31,HIGH(200)
 	ST   -Y,R31
 	ST   -Y,R30
 	CALL _delay_ms
-; 0000 0053       }
+; 0000 004B       }
 	RJMP _0x14
-; 0000 0054 }
+; 0000 004C }
 _0x18:
 	RJMP _0x18
 

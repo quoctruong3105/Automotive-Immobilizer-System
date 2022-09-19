@@ -39,10 +39,10 @@
 ;	data -> Y+0
 ;PCODE: $0000000F VOL: 0
 ;PCODE: $00000010 VOL: 0
-; 0000 000B     SPDR =  data;
+; 0000 000B     SPDR = data;
 ;PCODE: $00000011 VOL: 0
 ;PCODE: $00000012 VOL: 0
-; 0000 000C     while(SPSR == 0x00){};
+; 0000 000C     while(SPSR == 0x00) {};
 ;PCODE: $00000013 VOL: 0
 ;PCODE: $00000014 VOL: 0
 ;PCODE: $00000015 VOL: 0
@@ -179,71 +179,53 @@
 ; 0000 0034 #pragma optsize+
 ; 0000 0035 #endif
 ; 0000 0036 
-; 0000 0037 // USART initialization
-; 0000 0038 UCSR0A=0x00;
+; 0000 0037 // Khai bao huong cho cac chan ket noi KeyPad
+; 0000 0038 KEYPAD_DDR = 0xF0;
 ;PCODE: $0000006A VOL: 0
 ;PCODE: $0000006B VOL: 0
-; 0000 0039 UCSR0B=0x48;
+; 0000 0039 KEYPAD_PORT = 0x0F;
 ;PCODE: $0000006C VOL: 0
 ;PCODE: $0000006D VOL: 0
-; 0000 003A UCSR0C=0x06;
+; 0000 003A 
+; 0000 003B // SPI initialization
+; 0000 003C SPCR=0b01010011;
 ;PCODE: $0000006E VOL: 0
 ;PCODE: $0000006F VOL: 0
-; 0000 003B UBRR0H=0x00;
+; 0000 003D SPSR=0x00;
 ;PCODE: $00000070 VOL: 0
 ;PCODE: $00000071 VOL: 0
-; 0000 003C UBRR0L=0x08;
+; 0000 003E 
+; 0000 003F // Set up port for Master
+; 0000 0040 DDRB = 0b00101100;
 ;PCODE: $00000072 VOL: 0
 ;PCODE: $00000073 VOL: 0
-; 0000 003D 
-; 0000 003E 
-; 0000 003F //Khai bao huong cho cac chan ket noi KeyPad
-; 0000 0040 KEYPAD_DDR = 0xF0;
+; 0000 0041 PORTB = 0b00010100;
 ;PCODE: $00000074 VOL: 0
 ;PCODE: $00000075 VOL: 0
-; 0000 0041 KEYPAD_PORT = 0x0F;
-;PCODE: $00000076 VOL: 0
-;PCODE: $00000077 VOL: 0
 ; 0000 0042 
-; 0000 0043 // SPI initialization
-; 0000 0044 SPCR=0b01010011;
+; 0000 0043 while (1)
+;PCODE: $00000076 VOL: 0
+; 0000 0044       {
+; 0000 0045         key = checkpad(); // Read keypad
+;PCODE: $00000077 VOL: 0
 ;PCODE: $00000078 VOL: 0
+; 0000 0046         if(key)
 ;PCODE: $00000079 VOL: 0
-; 0000 0045 SPSR=0x00;
 ;PCODE: $0000007A VOL: 0
+; 0000 0047         {
+; 0000 0048             transmitData(key);
 ;PCODE: $0000007B VOL: 0
-; 0000 0046 
-; 0000 0047 //  Set up port for Master
-; 0000 0048 DDRB = 0b00101100;
 ;PCODE: $0000007C VOL: 0
+; 0000 0049         }
+; 0000 004A         delay_ms(200);
 ;PCODE: $0000007D VOL: 0
-; 0000 0049 PORTB = 0b00010100;
 ;PCODE: $0000007E VOL: 0
 ;PCODE: $0000007F VOL: 0
-; 0000 004A 
-; 0000 004B while (1)
 ;PCODE: $00000080 VOL: 0
-; 0000 004C       {
-; 0000 004D         key = checkpad(); // Read keypad
+; 0000 004B       }
 ;PCODE: $00000081 VOL: 0
 ;PCODE: $00000082 VOL: 0
-; 0000 004E         if(key)
+; 0000 004C }
 ;PCODE: $00000083 VOL: 0
 ;PCODE: $00000084 VOL: 0
-; 0000 004F         {
-; 0000 0050             transmitData(key);
 ;PCODE: $00000085 VOL: 0
-;PCODE: $00000086 VOL: 0
-; 0000 0051         }
-; 0000 0052         delay_ms(200);
-;PCODE: $00000087 VOL: 0
-;PCODE: $00000088 VOL: 0
-;PCODE: $00000089 VOL: 0
-;PCODE: $0000008A VOL: 0
-; 0000 0053       }
-;PCODE: $0000008B VOL: 0
-;PCODE: $0000008C VOL: 0
-; 0000 0054 }
-;PCODE: $0000008D VOL: 0
-;PCODE: $0000008E VOL: 0
-;PCODE: $0000008F VOL: 0

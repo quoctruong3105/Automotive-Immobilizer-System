@@ -1,17 +1,18 @@
 #include <mega328p.h>
 #include <delay.h>
 
-void transmitData(unsigned char data)
-{          
-    PORTB.2 = 0;
-    SPDR =  data;
-    while(SPSR == 0x00){};
-    PORTB.2 = 1;
-}
-
 #define KEYPAD_DDR DDRD
 #define KEYPAD_PORT PORTD
 #define KEYPAD_PIN PIND
+
+void transmitData(unsigned char data)
+{          
+    PORTB.2 = 0;
+    SPDR = data;
+    while(SPSR == 0x00) {};
+    PORTB.2 = 1;
+}
+
 
 unsigned int scan_code[4] = {0x0E, 0x0D, 0x0B, 0x07};
 unsigned int ascii_code[4][4] = {'7', '8', '9', '/',
@@ -58,8 +59,7 @@ UCSR0C=0x06;
 UBRR0H=0x00;
 UBRR0L=0x08;
 
-
-//Khai bao huong cho cac chan ket noi KeyPad
+// Khai bao huong cho cac chan ket noi KeyPad
 KEYPAD_DDR = 0xF0;
 KEYPAD_PORT = 0x0F;
 
@@ -67,7 +67,7 @@ KEYPAD_PORT = 0x0F;
 SPCR=0b01010011;
 SPSR=0x00;
 
-//  Set up port for Master
+// Set up port for Master
 DDRB = 0b00101100; 
 PORTB = 0b00010100;
 

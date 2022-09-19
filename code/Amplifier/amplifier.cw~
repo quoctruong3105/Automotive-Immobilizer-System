@@ -432,22 +432,7 @@ PhaseSegment2=0
 SamplePoints=0
 CANTimerClock=0
 [AlphanumericLCD]
-Enabled=1
-AlphanumericLCDCharsPerLineIndex=2
-AlphanumericLCDRSPort=1
-AlphanumericLCDRSBit=0
-AlphanumericLCDRDPort=1
-AlphanumericLCDRDBit=1
-AlphanumericLCDENPort=2
-AlphanumericLCDENBit=0
-AlphanumericLCDDATA4Port=2
-AlphanumericLCDDATA4Bit=1
-AlphanumericLCDDATA5Port=2
-AlphanumericLCDDATA5Bit=2
-AlphanumericLCDDATA6Port=2
-AlphanumericLCDDATA6Bit=3
-AlphanumericLCDDATA7Port=2
-AlphanumericLCDDATA7Bit=4
+Enabled=0
 [DS1302]
 DS1302Port=0
 DS1302IO=-1
@@ -459,7 +444,7 @@ DS1302ChargeResistor=0
 [ProjectInformation]
 ProjectName=
 ProjectVersion=
-ProjectDate=19/09/2022
+ProjectDate=14/09/2022
 ProjectAuthor=www.Eca.ir *** www.Webkade.ir
 ProjectCompany=
 CommentLines=0

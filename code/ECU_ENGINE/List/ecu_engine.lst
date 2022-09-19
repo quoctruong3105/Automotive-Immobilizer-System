@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.30  E:\Smart key System\code\ECU_ENGINE\List\ecu_engine.asm Tue Sep 13 06:53:20 2022
+AVRASM ver. 2.1.30  E:\Smart key System\code\ECU_ENGINE\List\ecu_engine.asm Thu Sep 15 09:20:37 2022
 
 E:\Smart key System\code\ECU_ENGINE\List\ecu_engine.asm(1061): warning: Register r3 already defined by the .DEF directive
 E:\Smart key System\code\ECU_ENGINE\List\ecu_engine.asm(1062): warning: Register r5 already defined by the .DEF directive
@@ -1458,16 +1458,7 @@ E:\Smart key System\code\ECU_ENGINE\List\ecu_engine.asm(1114): warning: .cseg .d
                  ; 0000 006B         Igt3 = Off;
 0000da 982a      	CBI  0x5,2
                  ; 0000 006C     }
-                 ; 0000 006D //    for(i = 1; i < 5; i++)
-                 ; 0000 006E //    {
-                 ; 0000 006F //        if(curSparkPlug == SparkPlug[i])
-                 ; 0000 0070 //        {
-                 ; 0000 0071 //            Igt[i] = ON;
-                 ; 0000 0072 //            delay_ms(200);
-                 ; 0000 0073 //            Igt[i] = OFF;
-                 ; 0000 0074 //        }
-                 ; 0000 0075 //    }
-                 ; 0000 0076 }
+                 ; 0000 006D }
                  _0x1E:
                  _0x1D:
                  _0x17:
@@ -1502,56 +1493,56 @@ E:\Smart key System\code\ECU_ENGINE\List\ecu_engine.asm(1114): warning: .cseg .d
                  ;
                  ;// USART Receiver interrupt service routine
                  ;interrupt [USART_RXC] void usart_rx_isr(void)
-                 ; 0000 0087 {
+                 ; 0000 007E {
                  _usart_rx_isr:
 0000e9 940e 0184 	CALL SUBOPT_0x0
-                 ; 0000 0088 char status,data;
-                 ; 0000 0089 status=UCSR0A;
+                 ; 0000 007F char status,data;
+                 ; 0000 0080 status=UCSR0A;
 0000eb 931a      	ST   -Y,R17
 0000ec 930a      	ST   -Y,R16
                  ;	status -> R17
                  ;	data -> R16
 0000ed 9110 00c0 	LDS  R17,192
-                 ; 0000 008A data=UDR0;
+                 ; 0000 0081 data=UDR0;
 0000ef 9100 00c6 	LDS  R16,198
-                 ; 0000 008B if ((status & (FRAMING_ERROR | PARITY_ERROR | DATA_OVERRUN))==0)
+                 ; 0000 0082 if ((status & (FRAMING_ERROR | PARITY_ERROR | DATA_OVERRUN))==0)
 0000f1 2fe1      	MOV  R30,R17
 0000f2 71ec      	ANDI R30,LOW(0x1C)
 0000f3 f481      	BRNE _0x23
-                 ; 0000 008C    {
-                 ; 0000 008D    rx_buffer0[rx_wr_index0++]=data;
+                 ; 0000 0083    {
+                 ; 0000 0084    rx_buffer0[rx_wr_index0++]=data;
 0000f4 2de8      	MOV  R30,R8
 0000f5 9483      	INC  R8
 0000f6 e0f0      	LDI  R31,0
 0000f7 50e0      	SUBI R30,LOW(-_rx_buffer0)
 0000f8 4ffd      	SBCI R31,HIGH(-_rx_buffer0)
 0000f9 8300      	ST   Z,R16
-                 ; 0000 008E #if RX_BUFFER_SIZE0 == 256
-                 ; 0000 008F    // special case for receiver buffer size=256
-                 ; 0000 0090    if (++rx_counter0 == 0)
-                 ; 0000 0091       {
-                 ; 0000 0092 #else
-                 ; 0000 0093    if (rx_wr_index0 == RX_BUFFER_SIZE0) rx_wr_index0=0;
+                 ; 0000 0085 #if RX_BUFFER_SIZE0 == 256
+                 ; 0000 0086    // special case for receiver buffer size=256
+                 ; 0000 0087    if (++rx_counter0 == 0)
+                 ; 0000 0088       {
+                 ; 0000 0089 #else
+                 ; 0000 008A    if (rx_wr_index0 == RX_BUFFER_SIZE0) rx_wr_index0=0;
 0000fa e0e8      	LDI  R30,LOW(8)
 0000fb 15e8      	CP   R30,R8
 0000fc f409      	BRNE _0x24
 0000fd 2488      	CLR  R8
-                 ; 0000 0094    if (++rx_counter0 == RX_BUFFER_SIZE0)
+                 ; 0000 008B    if (++rx_counter0 == RX_BUFFER_SIZE0)
                  _0x24:
 0000fe 94a3      	INC  R10
 0000ff e0e8      	LDI  R30,LOW(8)
 000100 15ea      	CP   R30,R10
 000101 f411      	BRNE _0x25
-                 ; 0000 0095       {
-                 ; 0000 0096       rx_counter0=0;
+                 ; 0000 008C       {
+                 ; 0000 008D       rx_counter0=0;
 000102 24aa      	CLR  R10
-                 ; 0000 0097 #endif
-                 ; 0000 0098       rx_buffer_overflow0=1;
+                 ; 0000 008E #endif
+                 ; 0000 008F       rx_buffer_overflow0=1;
 000103 9af0      	SBI  0x1E,0
-                 ; 0000 0099       }
-                 ; 0000 009A    }
+                 ; 0000 0090       }
+                 ; 0000 0091    }
                  _0x25:
-                 ; 0000 009B }
+                 ; 0000 0092 }
                  _0x23:
 000104 9109      	LD   R16,Y+
 000105 9119      	LD   R17,Y+
@@ -1562,41 +1553,41 @@ E:\Smart key System\code\ECU_ENGINE\List\ecu_engine.asm(1114): warning: .cseg .d
                  ;#define _ALTERNATE_GETCHAR_
                  ;#pragma used+
                  ;char getchar(void)
-                 ; 0000 00A2 {
+                 ; 0000 0099 {
                  _getchar:
-                 ; 0000 00A3 char data;
-                 ; 0000 00A4 while (rx_counter0==0);
+                 ; 0000 009A char data;
+                 ; 0000 009B while (rx_counter0==0);
 000107 931a      	ST   -Y,R17
                  ;	data -> R17
                  _0x28:
 000108 20aa      	TST  R10
 000109 f3f1      	BREQ _0x28
-                 ; 0000 00A5 data=rx_buffer0[rx_rd_index0++];
+                 ; 0000 009C data=rx_buffer0[rx_rd_index0++];
 00010a 2de7      	MOV  R30,R7
 00010b 9473      	INC  R7
 00010c e0f0      	LDI  R31,0
 00010d 50e0      	SUBI R30,LOW(-_rx_buffer0)
 00010e 4ffd      	SBCI R31,HIGH(-_rx_buffer0)
 00010f 8110      	LD   R17,Z
-                 ; 0000 00A6 #if RX_BUFFER_SIZE0 != 256
-                 ; 0000 00A7 if (rx_rd_index0 == RX_BUFFER_SIZE0) rx_rd_index0=0;
+                 ; 0000 009D #if RX_BUFFER_SIZE0 != 256
+                 ; 0000 009E if (rx_rd_index0 == RX_BUFFER_SIZE0) rx_rd_index0=0;
 000110 e0e8      	LDI  R30,LOW(8)
 000111 15e7      	CP   R30,R7
 000112 f409      	BRNE _0x2B
 000113 2477      	CLR  R7
-                 ; 0000 00A8 #endif
-                 ; 0000 00A9 #asm("cli")
+                 ; 0000 009F #endif
+                 ; 0000 00A0 #asm("cli")
                  _0x2B:
 000114 94f8      	cli
-                 ; 0000 00AA --rx_counter0;
+                 ; 0000 00A1 --rx_counter0;
 000115 94aa      	DEC  R10
-                 ; 0000 00AB #asm("sei")
+                 ; 0000 00A2 #asm("sei")
 000116 9478      	sei
-                 ; 0000 00AC return data;
+                 ; 0000 00A3 return data;
 000117 2fe1      	MOV  R30,R17
 000118 9119      	LD   R17,Y+
 000119 9508      	RET
-                 ; 0000 00AD }
+                 ; 0000 00A4 }
                  ;#pragma used-
                  ;#endif
                  ;
@@ -1612,16 +1603,16 @@ E:\Smart key System\code\ECU_ENGINE\List\ecu_engine.asm(1114): warning: .cseg .d
                  ;
                  ;// USART Transmitter interrupt service routine
                  ;interrupt [USART_TXC] void usart_tx_isr(void)
-                 ; 0000 00BD {
+                 ; 0000 00B4 {
                  _usart_tx_isr:
 00011a 940e 0184 	CALL SUBOPT_0x0
-                 ; 0000 00BE if (tx_counter0)
+                 ; 0000 00B5 if (tx_counter0)
 00011c 20bb      	TST  R11
 00011d f069      	BREQ _0x2C
-                 ; 0000 00BF    {
-                 ; 0000 00C0    --tx_counter0;
+                 ; 0000 00B6    {
+                 ; 0000 00B7    --tx_counter0;
 00011e 94ba      	DEC  R11
-                 ; 0000 00C1    UDR0=tx_buffer0[tx_rd_index0++];
+                 ; 0000 00B8    UDR0=tx_buffer0[tx_rd_index0++];
 00011f 2dec      	MOV  R30,R12
 000120 94c3      	INC  R12
 000121 e0f0      	LDI  R31,0
@@ -1629,16 +1620,16 @@ E:\Smart key System\code\ECU_ENGINE\List\ecu_engine.asm(1114): warning: .cseg .d
 000123 4ffc      	SBCI R31,HIGH(-_tx_buffer0)
 000124 81e0      	LD   R30,Z
 000125 93e0 00c6 	STS  198,R30
-                 ; 0000 00C2 #if TX_BUFFER_SIZE0 != 256
-                 ; 0000 00C3    if (tx_rd_index0 == TX_BUFFER_SIZE0) tx_rd_index0=0;
+                 ; 0000 00B9 #if TX_BUFFER_SIZE0 != 256
+                 ; 0000 00BA    if (tx_rd_index0 == TX_BUFFER_SIZE0) tx_rd_index0=0;
 000127 e0e8      	LDI  R30,LOW(8)
 000128 15ec      	CP   R30,R12
 000129 f409      	BRNE _0x2D
 00012a 24cc      	CLR  R12
-                 ; 0000 00C4 #endif
-                 ; 0000 00C5    }
+                 ; 0000 00BB #endif
+                 ; 0000 00BC    }
                  _0x2D:
-                 ; 0000 00C6 }
+                 ; 0000 00BD }
                  _0x2C:
                  _0x3F:
 00012b 91e9      	LD   R30,Y+
@@ -1652,25 +1643,25 @@ E:\Smart key System\code\ECU_ENGINE\List\ecu_engine.asm(1114): warning: .cseg .d
                  ;#define _ALTERNATE_PUTCHAR_
                  ;#pragma used+
                  ;void putchar(char c)
-                 ; 0000 00CD {
+                 ; 0000 00C4 {
                  _putchar:
-                 ; 0000 00CE while (tx_counter0 == TX_BUFFER_SIZE0);
+                 ; 0000 00C5 while (tx_counter0 == TX_BUFFER_SIZE0);
                  ;	c -> Y+0
                  _0x2E:
 000130 e0e8      	LDI  R30,LOW(8)
 000131 15eb      	CP   R30,R11
 000132 f3e9      	BREQ _0x2E
-                 ; 0000 00CF #asm("cli")
+                 ; 0000 00C6 #asm("cli")
 000133 94f8      	cli
-                 ; 0000 00D0 if (tx_counter0 || ((UCSR0A & DATA_REGISTER_EMPTY)==0))
+                 ; 0000 00C7 if (tx_counter0 || ((UCSR0A & DATA_REGISTER_EMPTY)==0))
 000134 20bb      	TST  R11
 000135 f421      	BRNE _0x32
 000136 91e0 00c0 	LDS  R30,192
 000138 72e0      	ANDI R30,LOW(0x20)
 000139 f469      	BRNE _0x31
                  _0x32:
-                 ; 0000 00D1    {
-                 ; 0000 00D2    tx_buffer0[tx_wr_index0++]=c;
+                 ; 0000 00C8    {
+                 ; 0000 00C9    tx_buffer0[tx_wr_index0++]=c;
 00013a 2de9      	MOV  R30,R9
 00013b 9493      	INC  R9
 00013c e0f0      	LDI  R31,0
@@ -1678,27 +1669,27 @@ E:\Smart key System\code\ECU_ENGINE\List\ecu_engine.asm(1114): warning: .cseg .d
 00013e 4ffc      	SBCI R31,HIGH(-_tx_buffer0)
 00013f 81a8      	LD   R26,Y
 000140 83a0      	STD  Z+0,R26
-                 ; 0000 00D3 #if TX_BUFFER_SIZE0 != 256
-                 ; 0000 00D4    if (tx_wr_index0 == TX_BUFFER_SIZE0) tx_wr_index0=0;
+                 ; 0000 00CA #if TX_BUFFER_SIZE0 != 256
+                 ; 0000 00CB    if (tx_wr_index0 == TX_BUFFER_SIZE0) tx_wr_index0=0;
 000141 e0e8      	LDI  R30,LOW(8)
 000142 15e9      	CP   R30,R9
 000143 f409      	BRNE _0x34
 000144 2499      	CLR  R9
-                 ; 0000 00D5 #endif
-                 ; 0000 00D6    ++tx_counter0;
+                 ; 0000 00CC #endif
+                 ; 0000 00CD    ++tx_counter0;
                  _0x34:
 000145 94b3      	INC  R11
-                 ; 0000 00D7    }
-                 ; 0000 00D8 else
+                 ; 0000 00CE    }
+                 ; 0000 00CF else
 000146 c003      	RJMP _0x35
                  _0x31:
-                 ; 0000 00D9    UDR0=c;
+                 ; 0000 00D0    UDR0=c;
 000147 81e8      	LD   R30,Y
 000148 93e0 00c6 	STS  198,R30
-                 ; 0000 00DA #asm("sei")
+                 ; 0000 00D1 #asm("sei")
                  _0x35:
 00014a 9478      	sei
-                 ; 0000 00DB }
+                 ; 0000 00D2 }
 00014b 9621      	ADIW R28,1
 00014c 9508      	RET
                  ;#pragma used-
@@ -1706,97 +1697,97 @@ E:\Smart key System\code\ECU_ENGINE\List\ecu_engine.asm(1114): warning: .cseg .d
                  ;
                  ;
                  ;void main(void)
-                 ; 0000 00E1 {
+                 ; 0000 00D8 {
                  _main:
-                 ; 0000 00E2 
-                 ; 0000 00E3 // Crystal Oscillator division factor: 1
-                 ; 0000 00E4 #pragma optsize-
-                 ; 0000 00E5 CLKPR=0x80;
+                 ; 0000 00D9 
+                 ; 0000 00DA // Crystal Oscillator division factor: 1
+                 ; 0000 00DB #pragma optsize-
+                 ; 0000 00DC CLKPR=0x80;
 00014d e8e0      	LDI  R30,LOW(128)
 00014e 93e0 0061 	STS  97,R30
-                 ; 0000 00E6 CLKPR=0x00;
+                 ; 0000 00DD CLKPR=0x00;
 000150 e0e0      	LDI  R30,LOW(0)
 000151 93e0 0061 	STS  97,R30
-                 ; 0000 00E7 #ifdef _OPTIMIZE_SIZE_
-                 ; 0000 00E8 #pragma optsize+
-                 ; 0000 00E9 #endif
-                 ; 0000 00EA 
-                 ; 0000 00EB // External Interrupt(s) initialization
-                 ; 0000 00EC EICRA=0x0A;
+                 ; 0000 00DE #ifdef _OPTIMIZE_SIZE_
+                 ; 0000 00DF #pragma optsize+
+                 ; 0000 00E0 #endif
+                 ; 0000 00E1 
+                 ; 0000 00E2 // External Interrupt(s) initialization
+                 ; 0000 00E3 EICRA=0x0A;
 000153 e0ea      	LDI  R30,LOW(10)
 000154 93e0 0069 	STS  105,R30
-                 ; 0000 00ED EIMSK=0x00;
+                 ; 0000 00E4 EIMSK=0x00;
 000156 e0e0      	LDI  R30,LOW(0)
 000157 bbed      	OUT  0x1D,R30
-                 ; 0000 00EE EIFR=0x03;
+                 ; 0000 00E5 EIFR=0x03;
 000158 e0e3      	LDI  R30,LOW(3)
 000159 bbec      	OUT  0x1C,R30
-                 ; 0000 00EF 
-                 ; 0000 00F0 // USART initialization
-                 ; 0000 00F1 UCSR0A=0x00;
+                 ; 0000 00E6 
+                 ; 0000 00E7 // USART initialization
+                 ; 0000 00E8 UCSR0A=0x00;
 00015a e0e0      	LDI  R30,LOW(0)
 00015b 93e0 00c0 	STS  192,R30
-                 ; 0000 00F2 UCSR0B=0xD8;
+                 ; 0000 00E9 UCSR0B=0xD8;
 00015d ede8      	LDI  R30,LOW(216)
 00015e 93e0 00c1 	STS  193,R30
-                 ; 0000 00F3 UCSR0C=0x06;
+                 ; 0000 00EA UCSR0C=0x06;
 000160 e0e6      	LDI  R30,LOW(6)
 000161 93e0 00c2 	STS  194,R30
-                 ; 0000 00F4 UBRR0H=0x00;
+                 ; 0000 00EB UBRR0H=0x00;
 000163 e0e0      	LDI  R30,LOW(0)
 000164 93e0 00c5 	STS  197,R30
-                 ; 0000 00F5 UBRR0L=0x08;
+                 ; 0000 00EC UBRR0L=0x08;
 000166 e0e8      	LDI  R30,LOW(8)
 000167 93e0 00c4 	STS  196,R30
-                 ; 0000 00F6 
-                 ; 0000 00F7 // Out put Ignition signal
-                 ; 0000 00F8 DDRB = 0b11111111;
+                 ; 0000 00ED 
+                 ; 0000 00EE // Out put Ignition signal
+                 ; 0000 00EF DDRB = 0b11111111;
 000169 efef      	LDI  R30,LOW(255)
 00016a b9e4      	OUT  0x4,R30
-                 ; 0000 00F9 PORTB = 0b00000000;
+                 ; 0000 00F0 PORTB = 0b00000000;
 00016b e0e0      	LDI  R30,LOW(0)
 00016c b9e5      	OUT  0x5,R30
-                 ; 0000 00FA 
-                 ; 0000 00FB #asm("sei")
+                 ; 0000 00F1 
+                 ; 0000 00F2 #asm("sei")
 00016d 9478      	sei
-                 ; 0000 00FC 
-                 ; 0000 00FD while (1)
+                 ; 0000 00F3 
+                 ; 0000 00F4 while (1)
                  _0x36:
-                 ; 0000 00FE       {
-                 ; 0000 00FF         UDR0 = getchar();
+                 ; 0000 00F5       {
+                 ; 0000 00F6         UDR0 = getchar();
 00016e df98      	RCALL _getchar
 00016f 93e0 00c6 	STS  198,R30
-                 ; 0000 0100         if(UDR0 == 'c')
+                 ; 0000 00F7         if(UDR0 == 'c')
 000171 91a0 00c6 	LDS  R26,198
 000173 36a3      	CPI  R26,LOW(0x63)
 000174 f421      	BRNE _0x39
-                 ; 0000 0101         {
-                 ; 0000 0102             EIMSK = 0b00000011;
+                 ; 0000 00F8         {
+                 ; 0000 00F9             EIMSK = 0b00000011;
 000175 e0e3      	LDI  R30,LOW(3)
 000176 bbed      	OUT  0x1D,R30
-                 ; 0000 0103             putchar('u');
+                 ; 0000 00FA             putchar('u');
 000177 e7e5      	LDI  R30,LOW(117)
 000178 c007      	RJMP _0x3E
-                 ; 0000 0104         }
-                 ; 0000 0105         else if(UDR0 == 'w')
+                 ; 0000 00FB         }
+                 ; 0000 00FC         else if(UDR0 == 'w')
                  _0x39:
 000179 91a0 00c6 	LDS  R26,198
 00017b 37a7      	CPI  R26,LOW(0x77)
 00017c f429      	BRNE _0x3B
-                 ; 0000 0106         {
-                 ; 0000 0107             EIMSK = 0b00000000;
+                 ; 0000 00FD         {
+                 ; 0000 00FE             EIMSK = 0b00000000;
 00017d e0e0      	LDI  R30,LOW(0)
 00017e bbed      	OUT  0x1D,R30
-                 ; 0000 0108             putchar('l');
+                 ; 0000 00FF             putchar('l');
 00017f e6ec      	LDI  R30,LOW(108)
                  _0x3E:
 000180 93ea      	ST   -Y,R30
 000181 dfae      	RCALL _putchar
-                 ; 0000 0109         }
-                 ; 0000 010A       }
+                 ; 0000 0100         }
+                 ; 0000 0101       }
                  _0x3B:
 000182 cfeb      	RJMP _0x36
-                 ; 0000 010B }
+                 ; 0000 0102 }
                  _0x3C:
 000183 cfff      	RJMP _0x3C
                  	#ifndef __SLEEP_DEFINED__

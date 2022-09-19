@@ -8,8 +8,8 @@
 void transmitData(unsigned char data)
 {          
     PORTB.2 = 0;
-    SPDR =  data;
-    while(SPSR == 0x00){};
+    SPDR = data;
+    while(SPSR == 0x00) {};
     PORTB.2 = 1;
 }
 
@@ -52,15 +52,7 @@ CLKPR=0x00;
 #pragma optsize+
 #endif
 
-// USART initialization
-UCSR0A=0x00;
-UCSR0B=0x48;
-UCSR0C=0x06;
-UBRR0H=0x00;
-UBRR0L=0x08;
-
-
-//Khai bao huong cho cac chan ket noi KeyPad
+// Khai bao huong cho cac chan ket noi KeyPad
 KEYPAD_DDR = 0xF0;
 KEYPAD_PORT = 0x0F;
 
@@ -68,7 +60,7 @@ KEYPAD_PORT = 0x0F;
 SPCR=0b01010011;
 SPSR=0x00;
 
-//  Set up port for Master
+// Set up port for Master
 DDRB = 0b00101100; 
 PORTB = 0b00010100;
 

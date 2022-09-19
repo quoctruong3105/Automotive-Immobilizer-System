@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.30  E:\Smart key System\code\ECU_ENGINE\List\ecu_engine.asm Thu Sep 15 09:20:37 2022
+AVRASM ver. 2.1.30  E:\Smart key System\code\ECU_ENGINE\List\ecu_engine.asm Mon Sep 19 14:10:52 2022
 
 E:\Smart key System\code\ECU_ENGINE\List\ecu_engine.asm(1061): warning: Register r3 already defined by the .DEF directive
 E:\Smart key System\code\ECU_ENGINE\List\ecu_engine.asm(1062): warning: Register r5 already defined by the .DEF directive
@@ -1089,9 +1089,9 @@ E:\Smart key System\code\ECU_ENGINE\List\ecu_engine.asm(1068): warning: Register
                  __START_OF_CODE:
                  
                  ;INTERRUPT VECTORS
-000000 940c 0046 	JMP  __RESET
-000002 940c 00a7 	JMP  _ext_int0_isr
-000004 940c 007e 	JMP  _ext_int1_isr
+000000 940c 0042 	JMP  __RESET
+000002 940c 00a3 	JMP  _ext_int0_isr
+000004 940c 007a 	JMP  _ext_int1_isr
 000006 940c 0000 	JMP  0x00
 000008 940c 0000 	JMP  0x00
 00000a 940c 0000 	JMP  0x00
@@ -1107,9 +1107,9 @@ E:\Smart key System\code\ECU_ENGINE\List\ecu_engine.asm(1068): warning: Register
 00001e 940c 0000 	JMP  0x00
 000020 940c 0000 	JMP  0x00
 000022 940c 0000 	JMP  0x00
-000024 940c 00e9 	JMP  _usart_rx_isr
+000024 940c 00e5 	JMP  _usart_rx_isr
 000026 940c 0000 	JMP  0x00
-000028 940c 011a 	JMP  _usart_tx_isr
+000028 940c 0116 	JMP  _usart_tx_isr
 00002a 940c 0000 	JMP  0x00
 00002c 940c 0000 	JMP  0x00
 00002e 940c 0000 	JMP  0x00
@@ -1128,100 +1128,94 @@ E:\Smart key System\code\ECU_ENGINE\List\ecu_engine.asm(1068): warning: Register
 00003b 0010
 00003c 0001      	.DB  0x0,0x10,0x0,0x1,0x10,0x0,0x1,0x0
                  
-                 _0x3:
-00003d 0001
-00003e 0002
-00003f 0003
-E:\Smart key System\code\ECU_ENGINE\List\ecu_engine.asm(1114): warning: .cseg .db misalignment - padding zero byte
-000040 0004      	.DB  0x1,0x0,0x2,0x0,0x3,0x0,0x4
-                 _0x40:
-000041 0000      	.DB  0x0,0x0
+                 _0x3F:
+00003d 0000      	.DB  0x0,0x0
                  
                  __GLOBAL_INI_TBL:
-000042 0002      	.DW  0x02
-000043 0003      	.DW  0x03
-000044 0082      	.DW  _0x40*2
+00003e 0002      	.DW  0x02
+00003f 0003      	.DW  0x03
+000040 007a      	.DW  _0x3F*2
                  
                  _0xFFFFFFFF:
-000045 0000      	.DW  0
+000041 0000      	.DW  0
                  
                  __RESET:
-000046 94f8      	CLI
-000047 27ee      	CLR  R30
-000048 bbef      	OUT  EECR,R30
+000042 94f8      	CLI
+000043 27ee      	CLR  R30
+000044 bbef      	OUT  EECR,R30
                  
                  ;INTERRUPT VECTORS ARE PLACED
                  ;AT THE START OF FLASH
-000049 e0f1      	LDI  R31,1
-00004a bff5      	OUT  MCUCR,R31
-00004b bfe5      	OUT  MCUCR,R30
+000045 e0f1      	LDI  R31,1
+000046 bff5      	OUT  MCUCR,R31
+000047 bfe5      	OUT  MCUCR,R30
                  
                  ;DISABLE WATCHDOG
-00004c e1f8      	LDI  R31,0x18
-00004d 95a8      	WDR
-00004e b7a4      	IN   R26,MCUSR
-00004f 7fa7      	CBR  R26,8
-000050 bfa4      	OUT  MCUSR,R26
-000051 93f0 0060 	STS  WDTCSR,R31
-000053 93e0 0060 	STS  WDTCSR,R30
+000048 e1f8      	LDI  R31,0x18
+000049 95a8      	WDR
+00004a b7a4      	IN   R26,MCUSR
+00004b 7fa7      	CBR  R26,8
+00004c bfa4      	OUT  MCUSR,R26
+00004d 93f0 0060 	STS  WDTCSR,R31
+00004f 93e0 0060 	STS  WDTCSR,R30
                  
                  ;CLEAR R2-R14
-000055 e08d      	LDI  R24,(14-2)+1
-000056 e0a2      	LDI  R26,2
-000057 27bb      	CLR  R27
+000051 e08d      	LDI  R24,(14-2)+1
+000052 e0a2      	LDI  R26,2
+000053 27bb      	CLR  R27
                  __CLEAR_REG:
-000058 93ed      	ST   X+,R30
-000059 958a      	DEC  R24
-00005a f7e9      	BRNE __CLEAR_REG
+000054 93ed      	ST   X+,R30
+000055 958a      	DEC  R24
+000056 f7e9      	BRNE __CLEAR_REG
                  
                  ;CLEAR SRAM
-00005b e080      	LDI  R24,LOW(__CLEAR_SRAM_SIZE)
-00005c e098      	LDI  R25,HIGH(__CLEAR_SRAM_SIZE)
-00005d e0a0      	LDI  R26,LOW(__SRAM_START)
-00005e e0b1      	LDI  R27,HIGH(__SRAM_START)
+000057 e080      	LDI  R24,LOW(__CLEAR_SRAM_SIZE)
+000058 e098      	LDI  R25,HIGH(__CLEAR_SRAM_SIZE)
+000059 e0a0      	LDI  R26,LOW(__SRAM_START)
+00005a e0b1      	LDI  R27,HIGH(__SRAM_START)
                  __CLEAR_SRAM:
-00005f 93ed      	ST   X+,R30
-000060 9701      	SBIW R24,1
-000061 f7e9      	BRNE __CLEAR_SRAM
+00005b 93ed      	ST   X+,R30
+00005c 9701      	SBIW R24,1
+00005d f7e9      	BRNE __CLEAR_SRAM
                  
                  ;GLOBAL VARIABLES INITIALIZATION
-000062 e8e4      	LDI  R30,LOW(__GLOBAL_INI_TBL*2)
-000063 e0f0      	LDI  R31,HIGH(__GLOBAL_INI_TBL*2)
+00005e e7ec      	LDI  R30,LOW(__GLOBAL_INI_TBL*2)
+00005f e0f0      	LDI  R31,HIGH(__GLOBAL_INI_TBL*2)
                  __GLOBAL_INI_NEXT:
-000064 9185      	LPM  R24,Z+
-000065 9195      	LPM  R25,Z+
-000066 9700      	SBIW R24,0
-000067 f061      	BREQ __GLOBAL_INI_END
-000068 91a5      	LPM  R26,Z+
-000069 91b5      	LPM  R27,Z+
-00006a 9005      	LPM  R0,Z+
-00006b 9015      	LPM  R1,Z+
-00006c 01bf      	MOVW R22,R30
-00006d 01f0      	MOVW R30,R0
+000060 9185      	LPM  R24,Z+
+000061 9195      	LPM  R25,Z+
+000062 9700      	SBIW R24,0
+000063 f061      	BREQ __GLOBAL_INI_END
+000064 91a5      	LPM  R26,Z+
+000065 91b5      	LPM  R27,Z+
+000066 9005      	LPM  R0,Z+
+000067 9015      	LPM  R1,Z+
+000068 01bf      	MOVW R22,R30
+000069 01f0      	MOVW R30,R0
                  __GLOBAL_INI_LOOP:
-00006e 9005      	LPM  R0,Z+
-00006f 920d      	ST   X+,R0
-000070 9701      	SBIW R24,1
-000071 f7e1      	BRNE __GLOBAL_INI_LOOP
-000072 01fb      	MOVW R30,R22
-000073 cff0      	RJMP __GLOBAL_INI_NEXT
+00006a 9005      	LPM  R0,Z+
+00006b 920d      	ST   X+,R0
+00006c 9701      	SBIW R24,1
+00006d f7e1      	BRNE __GLOBAL_INI_LOOP
+00006e 01fb      	MOVW R30,R22
+00006f cff0      	RJMP __GLOBAL_INI_NEXT
                  __GLOBAL_INI_END:
                  
                  ;GPIOR0 INITIALIZATION
-000074 e0e0      	LDI  R30,__GPIOR0_INIT
-000075 bbee      	OUT  GPIOR0,R30
+000070 e0e0      	LDI  R30,__GPIOR0_INIT
+000071 bbee      	OUT  GPIOR0,R30
                  
                  ;HARDWARE STACK POINTER INITIALIZATION
-000076 efef      	LDI  R30,LOW(__SRAM_END-__HEAP_SIZE)
-000077 bfed      	OUT  SPL,R30
-000078 e0e8      	LDI  R30,HIGH(__SRAM_END-__HEAP_SIZE)
-000079 bfee      	OUT  SPH,R30
+000072 efef      	LDI  R30,LOW(__SRAM_END-__HEAP_SIZE)
+000073 bfed      	OUT  SPL,R30
+000074 e0e8      	LDI  R30,HIGH(__SRAM_END-__HEAP_SIZE)
+000075 bfee      	OUT  SPH,R30
                  
                  ;DATA STACK POINTER INITIALIZATION
-00007a e0c0      	LDI  R28,LOW(__SRAM_START+__DSTACK_SIZE)
-00007b e0d3      	LDI  R29,HIGH(__SRAM_START+__DSTACK_SIZE)
+000076 e0c0      	LDI  R28,LOW(__SRAM_START+__DSTACK_SIZE)
+000077 e0d3      	LDI  R29,HIGH(__SRAM_START+__DSTACK_SIZE)
                  
-00007c 940c 014d 	JMP  _main
+000078 940c 0149 	JMP  _main
                  
                  	.ESEG
                  	.ORG 0
@@ -1292,191 +1286,187 @@ E:\Smart key System\code\ECU_ENGINE\List\ecu_engine.asm(1114): warning: .cseg .d
                  ;
                  ;unsigned int thuTuNo = 0;
                  ;unsigned int curSparkPlug;
-                 ;unsigned int SparkPlug[4] = {SparkPlug1 , SparkPlug4, SparkPlug2, SparkPlug3};
-                 
-                 	.DSEG
-                 ;
                  ;
                  ;// Chose spark plug in turn
                  ;interrupt [EXT_INT1] void ext_int1_isr(void)
-                 ; 0000 0039 {
+                 ; 0000 0037 {
                  
                  	.CSEG
                  _ext_int1_isr:
-00007e 940e 0184 	CALL SUBOPT_0x0
-                 ; 0000 003A     thuTuNo++;
-000080 e0e1      	LDI  R30,LOW(1)
-000081 e0f0      	LDI  R31,HIGH(1)
+00007a 940e 0180 	CALL SUBOPT_0x0
+                 ; 0000 0038     thuTuNo++;
+00007c e0e1      	LDI  R30,LOW(1)
+00007d e0f0      	LDI  R31,HIGH(1)
                 +
-000082 0e3e     +ADD R3 , R30
-000083 1e4f     +ADC R4 , R31
+00007e 0e3e     +ADD R3 , R30
+00007f 1e4f     +ADC R4 , R31
                  	__ADDWRR 3,4,30,31
-                 ; 0000 003B     if(thuTuNo == 5)
-000084 e0e5      	LDI  R30,LOW(5)
-000085 e0f0      	LDI  R31,HIGH(5)
-000086 15e3      	CP   R30,R3
-000087 05f4      	CPC  R31,R4
-000088 f421      	BRNE _0x4
-                 ; 0000 003C     {
-                 ; 0000 003D         thuTuNo = 1;
+                 ; 0000 0039     if(thuTuNo == 5)
+000080 e0e5      	LDI  R30,LOW(5)
+000081 e0f0      	LDI  R31,HIGH(5)
+000082 15e3      	CP   R30,R3
+000083 05f4      	CPC  R31,R4
+000084 f421      	BRNE _0x3
+                 ; 0000 003A     {
+                 ; 0000 003B         thuTuNo = 1;
+000085 e0e1      	LDI  R30,LOW(1)
+000086 e0f0      	LDI  R31,HIGH(1)
+                +
+000087 2e3e     +MOV R3 , R30
+000088 2e4f     +MOV R4 , R31
+                 	__PUTW1R 3,4
+                 ; 0000 003C     }
+                 ; 0000 003D     if(thuTuNo == 1)
+                 _0x3:
 000089 e0e1      	LDI  R30,LOW(1)
 00008a e0f0      	LDI  R31,HIGH(1)
-                +
-00008b 2e3e     +MOV R3 , R30
-00008c 2e4f     +MOV R4 , R31
-                 	__PUTW1R 3,4
-                 ; 0000 003E     }
-                 ; 0000 003F     if(thuTuNo == 1)
+00008b 15e3      	CP   R30,R3
+00008c 05f4      	CPC  R31,R4
+00008d f409      	BRNE _0x4
+                 ; 0000 003E     {
+                 ; 0000 003F         curSparkPlug = SparkPlug1;
+00008e c011      	RJMP _0x3C
+                 ; 0000 0040     }
+                 ; 0000 0041     else if(thuTuNo == 2)
                  _0x4:
-00008d e0e1      	LDI  R30,LOW(1)
-00008e e0f0      	LDI  R31,HIGH(1)
-00008f 15e3      	CP   R30,R3
-000090 05f4      	CPC  R31,R4
-000091 f409      	BRNE _0x5
-                 ; 0000 0040     {
-                 ; 0000 0041         curSparkPlug = SparkPlug1;
-000092 c011      	RJMP _0x3D
-                 ; 0000 0042     }
-                 ; 0000 0043     else if(thuTuNo == 2)
-                 _0x5:
-000093 e0e2      	LDI  R30,LOW(2)
-000094 e0f0      	LDI  R31,HIGH(2)
-000095 15e3      	CP   R30,R3
-000096 05f4      	CPC  R31,R4
-000097 f409      	BRNE _0x7
-                 ; 0000 0044     {
-                 ; 0000 0045         curSparkPlug = SparkPlug4;
-000098 c00b      	RJMP _0x3D
-                 ; 0000 0046     }
-                 ; 0000 0047     else if(thuTuNo == 3)
-                 _0x7:
-000099 e0e3      	LDI  R30,LOW(3)
-00009a e0f0      	LDI  R31,HIGH(3)
-00009b 15e3      	CP   R30,R3
-00009c 05f4      	CPC  R31,R4
-00009d f409      	BRNE _0x9
-                 ; 0000 0048     {
-                 ; 0000 0049         curSparkPlug = SparkPlug2;
-00009e c005      	RJMP _0x3D
-                 ; 0000 004A     }
-                 ; 0000 004B     else if(thuTuNo == 4)
-                 _0x9:
-00009f e0e4      	LDI  R30,LOW(4)
-0000a0 e0f0      	LDI  R31,HIGH(4)
-0000a1 15e3      	CP   R30,R3
-0000a2 05f4      	CPC  R31,R4
-0000a3 f411      	BRNE _0xB
-                 ; 0000 004C     {
-                 ; 0000 004D         curSparkPlug = SparkPlug3;
-                 _0x3D:
+00008f e0e2      	LDI  R30,LOW(2)
+000090 e0f0      	LDI  R31,HIGH(2)
+000091 15e3      	CP   R30,R3
+000092 05f4      	CPC  R31,R4
+000093 f409      	BRNE _0x6
+                 ; 0000 0042     {
+                 ; 0000 0043         curSparkPlug = SparkPlug4;
+000094 c00b      	RJMP _0x3C
+                 ; 0000 0044     }
+                 ; 0000 0045     else if(thuTuNo == 3)
+                 _0x6:
+000095 e0e3      	LDI  R30,LOW(3)
+000096 e0f0      	LDI  R31,HIGH(3)
+000097 15e3      	CP   R30,R3
+000098 05f4      	CPC  R31,R4
+000099 f409      	BRNE _0x8
+                 ; 0000 0046     {
+                 ; 0000 0047         curSparkPlug = SparkPlug2;
+00009a c005      	RJMP _0x3C
+                 ; 0000 0048     }
+                 ; 0000 0049     else if(thuTuNo == 4)
+                 _0x8:
+00009b e0e4      	LDI  R30,LOW(4)
+00009c e0f0      	LDI  R31,HIGH(4)
+00009d 15e3      	CP   R30,R3
+00009e 05f4      	CPC  R31,R4
+00009f f411      	BRNE _0xA
+                 ; 0000 004A     {
+                 ; 0000 004B         curSparkPlug = SparkPlug3;
+                 _0x3C:
                 +
-0000a4 2e5e     +MOV R5 , R30
-0000a5 2e6f     +MOV R6 , R31
+0000a0 2e5e     +MOV R5 , R30
+0000a1 2e6f     +MOV R6 , R31
                  	__PUTW1R 5,6
-                 ; 0000 004E     }
-                 ; 0000 004F }
-                 _0xB:
-0000a6 c084      	RJMP _0x3F
+                 ; 0000 004C     }
+                 ; 0000 004D }
+                 _0xA:
+0000a2 c084      	RJMP _0x3E
                  ;
                  ;// Ignition timing
                  ;interrupt [EXT_INT0] void ext_int0_isr(void)
-                 ; 0000 0053 {
+                 ; 0000 0051 {
                  _ext_int0_isr:
-0000a7 920a      	ST   -Y,R0
-0000a8 921a      	ST   -Y,R1
-0000a9 92fa      	ST   -Y,R15
-0000aa 936a      	ST   -Y,R22
-0000ab 937a      	ST   -Y,R23
-0000ac 938a      	ST   -Y,R24
-0000ad 939a      	ST   -Y,R25
-0000ae 93aa      	ST   -Y,R26
-0000af 93ba      	ST   -Y,R27
-0000b0 93ea      	ST   -Y,R30
-0000b1 93fa      	ST   -Y,R31
-0000b2 b7ef      	IN   R30,SREG
-0000b3 93ea      	ST   -Y,R30
-                 ; 0000 0054     //unsigned int i;
-                 ; 0000 0055     if(curSparkPlug == SparkPlug1)
-0000b4 e0e1      	LDI  R30,LOW(1)
-0000b5 e0f0      	LDI  R31,HIGH(1)
-0000b6 15e5      	CP   R30,R5
-0000b7 05f6      	CPC  R31,R6
-0000b8 f429      	BRNE _0xC
-                 ; 0000 0056     {
-                 ; 0000 0057         Igt1 = On;
-0000b9 9a28      	SBI  0x5,0
-                 ; 0000 0058         delay_ms(200);
-0000ba 940e 0189 	CALL SUBOPT_0x1
-                 ; 0000 0059         Igt1 = Off;
-0000bc 9828      	CBI  0x5,0
-                 ; 0000 005A     }
-                 ; 0000 005B     else if(curSparkPlug == SparkPlug4)
-0000bd c01d      	RJMP _0x11
-                 _0xC:
-0000be e0e2      	LDI  R30,LOW(2)
-0000bf e0f0      	LDI  R31,HIGH(2)
-0000c0 15e5      	CP   R30,R5
-0000c1 05f6      	CPC  R31,R6
-0000c2 f429      	BRNE _0x12
-                 ; 0000 005C     {
-                 ; 0000 005D         Igt4 = On;
-0000c3 9a2b      	SBI  0x5,3
-                 ; 0000 005E         delay_ms(200);
-0000c4 940e 0189 	CALL SUBOPT_0x1
-                 ; 0000 005F         Igt4 = Off;
-0000c6 982b      	CBI  0x5,3
-                 ; 0000 0060     }
-                 ; 0000 0061     else if(curSparkPlug == SparkPlug2)
-0000c7 c013      	RJMP _0x17
-                 _0x12:
-0000c8 e0e3      	LDI  R30,LOW(3)
-0000c9 e0f0      	LDI  R31,HIGH(3)
-0000ca 15e5      	CP   R30,R5
-0000cb 05f6      	CPC  R31,R6
-0000cc f429      	BRNE _0x18
-                 ; 0000 0062     {
-                 ; 0000 0063         Igt2 = On;
-0000cd 9a29      	SBI  0x5,1
-                 ; 0000 0064         delay_ms(200);
-0000ce 940e 0189 	CALL SUBOPT_0x1
-                 ; 0000 0065         Igt2 = Off;
-0000d0 9829      	CBI  0x5,1
-                 ; 0000 0066     }
-                 ; 0000 0067     else if(curSparkPlug == SparkPlug3)
-0000d1 c009      	RJMP _0x1D
-                 _0x18:
-0000d2 e0e4      	LDI  R30,LOW(4)
-0000d3 e0f0      	LDI  R31,HIGH(4)
-0000d4 15e5      	CP   R30,R5
-0000d5 05f6      	CPC  R31,R6
-0000d6 f421      	BRNE _0x1E
-                 ; 0000 0068     {
-                 ; 0000 0069         Igt3 = On;
-0000d7 9a2a      	SBI  0x5,2
-                 ; 0000 006A         delay_ms(200);
-0000d8 940e 0189 	CALL SUBOPT_0x1
-                 ; 0000 006B         Igt3 = Off;
-0000da 982a      	CBI  0x5,2
-                 ; 0000 006C     }
-                 ; 0000 006D }
-                 _0x1E:
-                 _0x1D:
-                 _0x17:
+0000a3 920a      	ST   -Y,R0
+0000a4 921a      	ST   -Y,R1
+0000a5 92fa      	ST   -Y,R15
+0000a6 936a      	ST   -Y,R22
+0000a7 937a      	ST   -Y,R23
+0000a8 938a      	ST   -Y,R24
+0000a9 939a      	ST   -Y,R25
+0000aa 93aa      	ST   -Y,R26
+0000ab 93ba      	ST   -Y,R27
+0000ac 93ea      	ST   -Y,R30
+0000ad 93fa      	ST   -Y,R31
+0000ae b7ef      	IN   R30,SREG
+0000af 93ea      	ST   -Y,R30
+                 ; 0000 0052     //unsigned int i;
+                 ; 0000 0053     if(curSparkPlug == SparkPlug1)
+0000b0 e0e1      	LDI  R30,LOW(1)
+0000b1 e0f0      	LDI  R31,HIGH(1)
+0000b2 15e5      	CP   R30,R5
+0000b3 05f6      	CPC  R31,R6
+0000b4 f429      	BRNE _0xB
+                 ; 0000 0054     {
+                 ; 0000 0055         Igt1 = On;
+0000b5 9a28      	SBI  0x5,0
+                 ; 0000 0056         delay_ms(200);
+0000b6 940e 0185 	CALL SUBOPT_0x1
+                 ; 0000 0057         Igt1 = Off;
+0000b8 9828      	CBI  0x5,0
+                 ; 0000 0058     }
+                 ; 0000 0059     else if(curSparkPlug == SparkPlug4)
+0000b9 c01d      	RJMP _0x10
+                 _0xB:
+0000ba e0e2      	LDI  R30,LOW(2)
+0000bb e0f0      	LDI  R31,HIGH(2)
+0000bc 15e5      	CP   R30,R5
+0000bd 05f6      	CPC  R31,R6
+0000be f429      	BRNE _0x11
+                 ; 0000 005A     {
+                 ; 0000 005B         Igt4 = On;
+0000bf 9a2b      	SBI  0x5,3
+                 ; 0000 005C         delay_ms(200);
+0000c0 940e 0185 	CALL SUBOPT_0x1
+                 ; 0000 005D         Igt4 = Off;
+0000c2 982b      	CBI  0x5,3
+                 ; 0000 005E     }
+                 ; 0000 005F     else if(curSparkPlug == SparkPlug2)
+0000c3 c013      	RJMP _0x16
                  _0x11:
-0000db 91e9      	LD   R30,Y+
-0000dc bfef      	OUT  SREG,R30
-0000dd 91f9      	LD   R31,Y+
-0000de 91e9      	LD   R30,Y+
-0000df 91b9      	LD   R27,Y+
-0000e0 91a9      	LD   R26,Y+
-0000e1 9199      	LD   R25,Y+
-0000e2 9189      	LD   R24,Y+
-0000e3 9179      	LD   R23,Y+
-0000e4 9169      	LD   R22,Y+
-0000e5 90f9      	LD   R15,Y+
-0000e6 9019      	LD   R1,Y+
-0000e7 9009      	LD   R0,Y+
-0000e8 9518      	RETI
+0000c4 e0e3      	LDI  R30,LOW(3)
+0000c5 e0f0      	LDI  R31,HIGH(3)
+0000c6 15e5      	CP   R30,R5
+0000c7 05f6      	CPC  R31,R6
+0000c8 f429      	BRNE _0x17
+                 ; 0000 0060     {
+                 ; 0000 0061         Igt2 = On;
+0000c9 9a29      	SBI  0x5,1
+                 ; 0000 0062         delay_ms(200);
+0000ca 940e 0185 	CALL SUBOPT_0x1
+                 ; 0000 0063         Igt2 = Off;
+0000cc 9829      	CBI  0x5,1
+                 ; 0000 0064     }
+                 ; 0000 0065     else if(curSparkPlug == SparkPlug3)
+0000cd c009      	RJMP _0x1C
+                 _0x17:
+0000ce e0e4      	LDI  R30,LOW(4)
+0000cf e0f0      	LDI  R31,HIGH(4)
+0000d0 15e5      	CP   R30,R5
+0000d1 05f6      	CPC  R31,R6
+0000d2 f421      	BRNE _0x1D
+                 ; 0000 0066     {
+                 ; 0000 0067         Igt3 = On;
+0000d3 9a2a      	SBI  0x5,2
+                 ; 0000 0068         delay_ms(200);
+0000d4 940e 0185 	CALL SUBOPT_0x1
+                 ; 0000 0069         Igt3 = Off;
+0000d6 982a      	CBI  0x5,2
+                 ; 0000 006A     }
+                 ; 0000 006B }
+                 _0x1D:
+                 _0x1C:
+                 _0x16:
+                 _0x10:
+0000d7 91e9      	LD   R30,Y+
+0000d8 bfef      	OUT  SREG,R30
+0000d9 91f9      	LD   R31,Y+
+0000da 91e9      	LD   R30,Y+
+0000db 91b9      	LD   R27,Y+
+0000dc 91a9      	LD   R26,Y+
+0000dd 9199      	LD   R25,Y+
+0000de 9189      	LD   R24,Y+
+0000df 9179      	LD   R23,Y+
+0000e0 9169      	LD   R22,Y+
+0000e1 90f9      	LD   R15,Y+
+0000e2 9019      	LD   R1,Y+
+0000e3 9009      	LD   R0,Y+
+0000e4 9518      	RETI
                  ;
                  ;// USART Receiver buffer
                  ;#define RX_BUFFER_SIZE0 8
@@ -1493,101 +1483,101 @@ E:\Smart key System\code\ECU_ENGINE\List\ecu_engine.asm(1114): warning: .cseg .d
                  ;
                  ;// USART Receiver interrupt service routine
                  ;interrupt [USART_RXC] void usart_rx_isr(void)
-                 ; 0000 007E {
+                 ; 0000 007C {
                  _usart_rx_isr:
-0000e9 940e 0184 	CALL SUBOPT_0x0
-                 ; 0000 007F char status,data;
-                 ; 0000 0080 status=UCSR0A;
-0000eb 931a      	ST   -Y,R17
-0000ec 930a      	ST   -Y,R16
+0000e5 940e 0180 	CALL SUBOPT_0x0
+                 ; 0000 007D char status,data;
+                 ; 0000 007E status=UCSR0A;
+0000e7 931a      	ST   -Y,R17
+0000e8 930a      	ST   -Y,R16
                  ;	status -> R17
                  ;	data -> R16
-0000ed 9110 00c0 	LDS  R17,192
-                 ; 0000 0081 data=UDR0;
-0000ef 9100 00c6 	LDS  R16,198
-                 ; 0000 0082 if ((status & (FRAMING_ERROR | PARITY_ERROR | DATA_OVERRUN))==0)
-0000f1 2fe1      	MOV  R30,R17
-0000f2 71ec      	ANDI R30,LOW(0x1C)
-0000f3 f481      	BRNE _0x23
-                 ; 0000 0083    {
-                 ; 0000 0084    rx_buffer0[rx_wr_index0++]=data;
-0000f4 2de8      	MOV  R30,R8
-0000f5 9483      	INC  R8
-0000f6 e0f0      	LDI  R31,0
-0000f7 50e0      	SUBI R30,LOW(-_rx_buffer0)
-0000f8 4ffd      	SBCI R31,HIGH(-_rx_buffer0)
-0000f9 8300      	ST   Z,R16
-                 ; 0000 0085 #if RX_BUFFER_SIZE0 == 256
-                 ; 0000 0086    // special case for receiver buffer size=256
-                 ; 0000 0087    if (++rx_counter0 == 0)
-                 ; 0000 0088       {
-                 ; 0000 0089 #else
-                 ; 0000 008A    if (rx_wr_index0 == RX_BUFFER_SIZE0) rx_wr_index0=0;
-0000fa e0e8      	LDI  R30,LOW(8)
-0000fb 15e8      	CP   R30,R8
-0000fc f409      	BRNE _0x24
-0000fd 2488      	CLR  R8
-                 ; 0000 008B    if (++rx_counter0 == RX_BUFFER_SIZE0)
-                 _0x24:
-0000fe 94a3      	INC  R10
-0000ff e0e8      	LDI  R30,LOW(8)
-000100 15ea      	CP   R30,R10
-000101 f411      	BRNE _0x25
-                 ; 0000 008C       {
-                 ; 0000 008D       rx_counter0=0;
-000102 24aa      	CLR  R10
-                 ; 0000 008E #endif
-                 ; 0000 008F       rx_buffer_overflow0=1;
-000103 9af0      	SBI  0x1E,0
-                 ; 0000 0090       }
-                 ; 0000 0091    }
-                 _0x25:
-                 ; 0000 0092 }
+0000e9 9110 00c0 	LDS  R17,192
+                 ; 0000 007F data=UDR0;
+0000eb 9100 00c6 	LDS  R16,198
+                 ; 0000 0080 if ((status & (FRAMING_ERROR | PARITY_ERROR | DATA_OVERRUN))==0)
+0000ed 2fe1      	MOV  R30,R17
+0000ee 71ec      	ANDI R30,LOW(0x1C)
+0000ef f481      	BRNE _0x22
+                 ; 0000 0081    {
+                 ; 0000 0082    rx_buffer0[rx_wr_index0++]=data;
+0000f0 2de8      	MOV  R30,R8
+0000f1 9483      	INC  R8
+0000f2 e0f0      	LDI  R31,0
+0000f3 50e0      	SUBI R30,LOW(-_rx_buffer0)
+0000f4 4ffd      	SBCI R31,HIGH(-_rx_buffer0)
+0000f5 8300      	ST   Z,R16
+                 ; 0000 0083 #if RX_BUFFER_SIZE0 == 256
+                 ; 0000 0084    // special case for receiver buffer size=256
+                 ; 0000 0085    if (++rx_counter0 == 0)
+                 ; 0000 0086       {
+                 ; 0000 0087 #else
+                 ; 0000 0088    if (rx_wr_index0 == RX_BUFFER_SIZE0) rx_wr_index0=0;
+0000f6 e0e8      	LDI  R30,LOW(8)
+0000f7 15e8      	CP   R30,R8
+0000f8 f409      	BRNE _0x23
+0000f9 2488      	CLR  R8
+                 ; 0000 0089    if (++rx_counter0 == RX_BUFFER_SIZE0)
                  _0x23:
-000104 9109      	LD   R16,Y+
-000105 9119      	LD   R17,Y+
-000106 c024      	RJMP _0x3F
+0000fa 94a3      	INC  R10
+0000fb e0e8      	LDI  R30,LOW(8)
+0000fc 15ea      	CP   R30,R10
+0000fd f411      	BRNE _0x24
+                 ; 0000 008A       {
+                 ; 0000 008B       rx_counter0=0;
+0000fe 24aa      	CLR  R10
+                 ; 0000 008C #endif
+                 ; 0000 008D       rx_buffer_overflow0=1;
+0000ff 9af0      	SBI  0x1E,0
+                 ; 0000 008E       }
+                 ; 0000 008F    }
+                 _0x24:
+                 ; 0000 0090 }
+                 _0x22:
+000100 9109      	LD   R16,Y+
+000101 9119      	LD   R17,Y+
+000102 c024      	RJMP _0x3E
                  ;
                  ;#ifndef _DEBUG_TERMINAL_IO_
                  ;// Get a character from the USART Receiver buffer
                  ;#define _ALTERNATE_GETCHAR_
                  ;#pragma used+
                  ;char getchar(void)
-                 ; 0000 0099 {
+                 ; 0000 0097 {
                  _getchar:
-                 ; 0000 009A char data;
-                 ; 0000 009B while (rx_counter0==0);
-000107 931a      	ST   -Y,R17
+                 ; 0000 0098 char data;
+                 ; 0000 0099 while (rx_counter0==0);
+000103 931a      	ST   -Y,R17
                  ;	data -> R17
-                 _0x28:
-000108 20aa      	TST  R10
-000109 f3f1      	BREQ _0x28
-                 ; 0000 009C data=rx_buffer0[rx_rd_index0++];
-00010a 2de7      	MOV  R30,R7
-00010b 9473      	INC  R7
-00010c e0f0      	LDI  R31,0
-00010d 50e0      	SUBI R30,LOW(-_rx_buffer0)
-00010e 4ffd      	SBCI R31,HIGH(-_rx_buffer0)
-00010f 8110      	LD   R17,Z
-                 ; 0000 009D #if RX_BUFFER_SIZE0 != 256
-                 ; 0000 009E if (rx_rd_index0 == RX_BUFFER_SIZE0) rx_rd_index0=0;
-000110 e0e8      	LDI  R30,LOW(8)
-000111 15e7      	CP   R30,R7
-000112 f409      	BRNE _0x2B
-000113 2477      	CLR  R7
-                 ; 0000 009F #endif
-                 ; 0000 00A0 #asm("cli")
-                 _0x2B:
-000114 94f8      	cli
-                 ; 0000 00A1 --rx_counter0;
-000115 94aa      	DEC  R10
-                 ; 0000 00A2 #asm("sei")
-000116 9478      	sei
-                 ; 0000 00A3 return data;
-000117 2fe1      	MOV  R30,R17
-000118 9119      	LD   R17,Y+
-000119 9508      	RET
-                 ; 0000 00A4 }
+                 _0x27:
+000104 20aa      	TST  R10
+000105 f3f1      	BREQ _0x27
+                 ; 0000 009A data=rx_buffer0[rx_rd_index0++];
+000106 2de7      	MOV  R30,R7
+000107 9473      	INC  R7
+000108 e0f0      	LDI  R31,0
+000109 50e0      	SUBI R30,LOW(-_rx_buffer0)
+00010a 4ffd      	SBCI R31,HIGH(-_rx_buffer0)
+00010b 8110      	LD   R17,Z
+                 ; 0000 009B #if RX_BUFFER_SIZE0 != 256
+                 ; 0000 009C if (rx_rd_index0 == RX_BUFFER_SIZE0) rx_rd_index0=0;
+00010c e0e8      	LDI  R30,LOW(8)
+00010d 15e7      	CP   R30,R7
+00010e f409      	BRNE _0x2A
+00010f 2477      	CLR  R7
+                 ; 0000 009D #endif
+                 ; 0000 009E #asm("cli")
+                 _0x2A:
+000110 94f8      	cli
+                 ; 0000 009F --rx_counter0;
+000111 94aa      	DEC  R10
+                 ; 0000 00A0 #asm("sei")
+000112 9478      	sei
+                 ; 0000 00A1 return data;
+000113 2fe1      	MOV  R30,R17
+000114 9119      	LD   R17,Y+
+000115 9508      	RET
+                 ; 0000 00A2 }
                  ;#pragma used-
                  ;#endif
                  ;
@@ -1603,193 +1593,193 @@ E:\Smart key System\code\ECU_ENGINE\List\ecu_engine.asm(1114): warning: .cseg .d
                  ;
                  ;// USART Transmitter interrupt service routine
                  ;interrupt [USART_TXC] void usart_tx_isr(void)
-                 ; 0000 00B4 {
+                 ; 0000 00B2 {
                  _usart_tx_isr:
-00011a 940e 0184 	CALL SUBOPT_0x0
-                 ; 0000 00B5 if (tx_counter0)
-00011c 20bb      	TST  R11
-00011d f069      	BREQ _0x2C
-                 ; 0000 00B6    {
-                 ; 0000 00B7    --tx_counter0;
-00011e 94ba      	DEC  R11
-                 ; 0000 00B8    UDR0=tx_buffer0[tx_rd_index0++];
-00011f 2dec      	MOV  R30,R12
-000120 94c3      	INC  R12
-000121 e0f0      	LDI  R31,0
-000122 5fe8      	SUBI R30,LOW(-_tx_buffer0)
-000123 4ffc      	SBCI R31,HIGH(-_tx_buffer0)
-000124 81e0      	LD   R30,Z
-000125 93e0 00c6 	STS  198,R30
-                 ; 0000 00B9 #if TX_BUFFER_SIZE0 != 256
-                 ; 0000 00BA    if (tx_rd_index0 == TX_BUFFER_SIZE0) tx_rd_index0=0;
-000127 e0e8      	LDI  R30,LOW(8)
-000128 15ec      	CP   R30,R12
-000129 f409      	BRNE _0x2D
-00012a 24cc      	CLR  R12
-                 ; 0000 00BB #endif
-                 ; 0000 00BC    }
-                 _0x2D:
-                 ; 0000 00BD }
+000116 940e 0180 	CALL SUBOPT_0x0
+                 ; 0000 00B3 if (tx_counter0)
+000118 20bb      	TST  R11
+000119 f069      	BREQ _0x2B
+                 ; 0000 00B4    {
+                 ; 0000 00B5    --tx_counter0;
+00011a 94ba      	DEC  R11
+                 ; 0000 00B6    UDR0=tx_buffer0[tx_rd_index0++];
+00011b 2dec      	MOV  R30,R12
+00011c 94c3      	INC  R12
+00011d e0f0      	LDI  R31,0
+00011e 5fe8      	SUBI R30,LOW(-_tx_buffer0)
+00011f 4ffc      	SBCI R31,HIGH(-_tx_buffer0)
+000120 81e0      	LD   R30,Z
+000121 93e0 00c6 	STS  198,R30
+                 ; 0000 00B7 #if TX_BUFFER_SIZE0 != 256
+                 ; 0000 00B8    if (tx_rd_index0 == TX_BUFFER_SIZE0) tx_rd_index0=0;
+000123 e0e8      	LDI  R30,LOW(8)
+000124 15ec      	CP   R30,R12
+000125 f409      	BRNE _0x2C
+000126 24cc      	CLR  R12
+                 ; 0000 00B9 #endif
+                 ; 0000 00BA    }
                  _0x2C:
-                 _0x3F:
-00012b 91e9      	LD   R30,Y+
-00012c bfef      	OUT  SREG,R30
-00012d 91f9      	LD   R31,Y+
-00012e 91e9      	LD   R30,Y+
-00012f 9518      	RETI
+                 ; 0000 00BB }
+                 _0x2B:
+                 _0x3E:
+000127 91e9      	LD   R30,Y+
+000128 bfef      	OUT  SREG,R30
+000129 91f9      	LD   R31,Y+
+00012a 91e9      	LD   R30,Y+
+00012b 9518      	RETI
                  ;
                  ;#ifndef _DEBUG_TERMINAL_IO_
                  ;// Write a character to the USART Transmitter buffer
                  ;#define _ALTERNATE_PUTCHAR_
                  ;#pragma used+
                  ;void putchar(char c)
-                 ; 0000 00C4 {
+                 ; 0000 00C2 {
                  _putchar:
-                 ; 0000 00C5 while (tx_counter0 == TX_BUFFER_SIZE0);
+                 ; 0000 00C3 while (tx_counter0 == TX_BUFFER_SIZE0);
                  ;	c -> Y+0
-                 _0x2E:
-000130 e0e8      	LDI  R30,LOW(8)
-000131 15eb      	CP   R30,R11
-000132 f3e9      	BREQ _0x2E
-                 ; 0000 00C6 #asm("cli")
-000133 94f8      	cli
-                 ; 0000 00C7 if (tx_counter0 || ((UCSR0A & DATA_REGISTER_EMPTY)==0))
-000134 20bb      	TST  R11
-000135 f421      	BRNE _0x32
-000136 91e0 00c0 	LDS  R30,192
-000138 72e0      	ANDI R30,LOW(0x20)
-000139 f469      	BRNE _0x31
-                 _0x32:
-                 ; 0000 00C8    {
-                 ; 0000 00C9    tx_buffer0[tx_wr_index0++]=c;
-00013a 2de9      	MOV  R30,R9
-00013b 9493      	INC  R9
-00013c e0f0      	LDI  R31,0
-00013d 5fe8      	SUBI R30,LOW(-_tx_buffer0)
-00013e 4ffc      	SBCI R31,HIGH(-_tx_buffer0)
-00013f 81a8      	LD   R26,Y
-000140 83a0      	STD  Z+0,R26
-                 ; 0000 00CA #if TX_BUFFER_SIZE0 != 256
-                 ; 0000 00CB    if (tx_wr_index0 == TX_BUFFER_SIZE0) tx_wr_index0=0;
-000141 e0e8      	LDI  R30,LOW(8)
-000142 15e9      	CP   R30,R9
-000143 f409      	BRNE _0x34
-000144 2499      	CLR  R9
-                 ; 0000 00CC #endif
-                 ; 0000 00CD    ++tx_counter0;
-                 _0x34:
-000145 94b3      	INC  R11
-                 ; 0000 00CE    }
-                 ; 0000 00CF else
-000146 c003      	RJMP _0x35
+                 _0x2D:
+00012c e0e8      	LDI  R30,LOW(8)
+00012d 15eb      	CP   R30,R11
+00012e f3e9      	BREQ _0x2D
+                 ; 0000 00C4 #asm("cli")
+00012f 94f8      	cli
+                 ; 0000 00C5 if (tx_counter0 || ((UCSR0A & DATA_REGISTER_EMPTY)==0))
+000130 20bb      	TST  R11
+000131 f421      	BRNE _0x31
+000132 91e0 00c0 	LDS  R30,192
+000134 72e0      	ANDI R30,LOW(0x20)
+000135 f469      	BRNE _0x30
                  _0x31:
-                 ; 0000 00D0    UDR0=c;
-000147 81e8      	LD   R30,Y
-000148 93e0 00c6 	STS  198,R30
-                 ; 0000 00D1 #asm("sei")
-                 _0x35:
-00014a 9478      	sei
-                 ; 0000 00D2 }
-00014b 9621      	ADIW R28,1
-00014c 9508      	RET
+                 ; 0000 00C6    {
+                 ; 0000 00C7    tx_buffer0[tx_wr_index0++]=c;
+000136 2de9      	MOV  R30,R9
+000137 9493      	INC  R9
+000138 e0f0      	LDI  R31,0
+000139 5fe8      	SUBI R30,LOW(-_tx_buffer0)
+00013a 4ffc      	SBCI R31,HIGH(-_tx_buffer0)
+00013b 81a8      	LD   R26,Y
+00013c 83a0      	STD  Z+0,R26
+                 ; 0000 00C8 #if TX_BUFFER_SIZE0 != 256
+                 ; 0000 00C9    if (tx_wr_index0 == TX_BUFFER_SIZE0) tx_wr_index0=0;
+00013d e0e8      	LDI  R30,LOW(8)
+00013e 15e9      	CP   R30,R9
+00013f f409      	BRNE _0x33
+000140 2499      	CLR  R9
+                 ; 0000 00CA #endif
+                 ; 0000 00CB    ++tx_counter0;
+                 _0x33:
+000141 94b3      	INC  R11
+                 ; 0000 00CC    }
+                 ; 0000 00CD else
+000142 c003      	RJMP _0x34
+                 _0x30:
+                 ; 0000 00CE    UDR0=c;
+000143 81e8      	LD   R30,Y
+000144 93e0 00c6 	STS  198,R30
+                 ; 0000 00CF #asm("sei")
+                 _0x34:
+000146 9478      	sei
+                 ; 0000 00D0 }
+000147 9621      	ADIW R28,1
+000148 9508      	RET
                  ;#pragma used-
                  ;#endif
                  ;
                  ;
                  ;void main(void)
-                 ; 0000 00D8 {
+                 ; 0000 00D6 {
                  _main:
-                 ; 0000 00D9 
-                 ; 0000 00DA // Crystal Oscillator division factor: 1
-                 ; 0000 00DB #pragma optsize-
-                 ; 0000 00DC CLKPR=0x80;
-00014d e8e0      	LDI  R30,LOW(128)
-00014e 93e0 0061 	STS  97,R30
-                 ; 0000 00DD CLKPR=0x00;
-000150 e0e0      	LDI  R30,LOW(0)
-000151 93e0 0061 	STS  97,R30
-                 ; 0000 00DE #ifdef _OPTIMIZE_SIZE_
-                 ; 0000 00DF #pragma optsize+
-                 ; 0000 00E0 #endif
-                 ; 0000 00E1 
-                 ; 0000 00E2 // External Interrupt(s) initialization
-                 ; 0000 00E3 EICRA=0x0A;
-000153 e0ea      	LDI  R30,LOW(10)
-000154 93e0 0069 	STS  105,R30
-                 ; 0000 00E4 EIMSK=0x00;
+                 ; 0000 00D7 
+                 ; 0000 00D8 // Crystal Oscillator division factor: 1
+                 ; 0000 00D9 #pragma optsize-
+                 ; 0000 00DA CLKPR=0x80;
+000149 e8e0      	LDI  R30,LOW(128)
+00014a 93e0 0061 	STS  97,R30
+                 ; 0000 00DB CLKPR=0x00;
+00014c e0e0      	LDI  R30,LOW(0)
+00014d 93e0 0061 	STS  97,R30
+                 ; 0000 00DC #ifdef _OPTIMIZE_SIZE_
+                 ; 0000 00DD #pragma optsize+
+                 ; 0000 00DE #endif
+                 ; 0000 00DF 
+                 ; 0000 00E0 // External Interrupt(s) initialization
+                 ; 0000 00E1 EICRA=0x0A;
+00014f e0ea      	LDI  R30,LOW(10)
+000150 93e0 0069 	STS  105,R30
+                 ; 0000 00E2 EIMSK=0x00;
+000152 e0e0      	LDI  R30,LOW(0)
+000153 bbed      	OUT  0x1D,R30
+                 ; 0000 00E3 EIFR=0x03;
+000154 e0e3      	LDI  R30,LOW(3)
+000155 bbec      	OUT  0x1C,R30
+                 ; 0000 00E4 
+                 ; 0000 00E5 // USART initialization
+                 ; 0000 00E6 UCSR0A=0x00;
 000156 e0e0      	LDI  R30,LOW(0)
-000157 bbed      	OUT  0x1D,R30
-                 ; 0000 00E5 EIFR=0x03;
-000158 e0e3      	LDI  R30,LOW(3)
-000159 bbec      	OUT  0x1C,R30
-                 ; 0000 00E6 
-                 ; 0000 00E7 // USART initialization
-                 ; 0000 00E8 UCSR0A=0x00;
-00015a e0e0      	LDI  R30,LOW(0)
-00015b 93e0 00c0 	STS  192,R30
-                 ; 0000 00E9 UCSR0B=0xD8;
-00015d ede8      	LDI  R30,LOW(216)
-00015e 93e0 00c1 	STS  193,R30
-                 ; 0000 00EA UCSR0C=0x06;
-000160 e0e6      	LDI  R30,LOW(6)
-000161 93e0 00c2 	STS  194,R30
-                 ; 0000 00EB UBRR0H=0x00;
-000163 e0e0      	LDI  R30,LOW(0)
-000164 93e0 00c5 	STS  197,R30
-                 ; 0000 00EC UBRR0L=0x08;
-000166 e0e8      	LDI  R30,LOW(8)
-000167 93e0 00c4 	STS  196,R30
-                 ; 0000 00ED 
-                 ; 0000 00EE // Out put Ignition signal
-                 ; 0000 00EF DDRB = 0b11111111;
-000169 efef      	LDI  R30,LOW(255)
-00016a b9e4      	OUT  0x4,R30
-                 ; 0000 00F0 PORTB = 0b00000000;
-00016b e0e0      	LDI  R30,LOW(0)
-00016c b9e5      	OUT  0x5,R30
+000157 93e0 00c0 	STS  192,R30
+                 ; 0000 00E7 UCSR0B=0xD8;
+000159 ede8      	LDI  R30,LOW(216)
+00015a 93e0 00c1 	STS  193,R30
+                 ; 0000 00E8 UCSR0C=0x06;
+00015c e0e6      	LDI  R30,LOW(6)
+00015d 93e0 00c2 	STS  194,R30
+                 ; 0000 00E9 UBRR0H=0x00;
+00015f e0e0      	LDI  R30,LOW(0)
+000160 93e0 00c5 	STS  197,R30
+                 ; 0000 00EA UBRR0L=0x08;
+000162 e0e8      	LDI  R30,LOW(8)
+000163 93e0 00c4 	STS  196,R30
+                 ; 0000 00EB 
+                 ; 0000 00EC // Out put Ignition signal
+                 ; 0000 00ED DDRB = 0b11111111;
+000165 efef      	LDI  R30,LOW(255)
+000166 b9e4      	OUT  0x4,R30
+                 ; 0000 00EE PORTB = 0b00000000;
+000167 e0e0      	LDI  R30,LOW(0)
+000168 b9e5      	OUT  0x5,R30
+                 ; 0000 00EF 
+                 ; 0000 00F0 #asm("sei")
+000169 9478      	sei
                  ; 0000 00F1 
-                 ; 0000 00F2 #asm("sei")
-00016d 9478      	sei
-                 ; 0000 00F3 
-                 ; 0000 00F4 while (1)
-                 _0x36:
-                 ; 0000 00F5       {
-                 ; 0000 00F6         UDR0 = getchar();
-00016e df98      	RCALL _getchar
-00016f 93e0 00c6 	STS  198,R30
-                 ; 0000 00F7         if(UDR0 == 'c')
-000171 91a0 00c6 	LDS  R26,198
-000173 36a3      	CPI  R26,LOW(0x63)
-000174 f421      	BRNE _0x39
-                 ; 0000 00F8         {
-                 ; 0000 00F9             EIMSK = 0b00000011;
-000175 e0e3      	LDI  R30,LOW(3)
-000176 bbed      	OUT  0x1D,R30
-                 ; 0000 00FA             putchar('u');
-000177 e7e5      	LDI  R30,LOW(117)
-000178 c007      	RJMP _0x3E
-                 ; 0000 00FB         }
-                 ; 0000 00FC         else if(UDR0 == 'w')
-                 _0x39:
-000179 91a0 00c6 	LDS  R26,198
-00017b 37a7      	CPI  R26,LOW(0x77)
-00017c f429      	BRNE _0x3B
-                 ; 0000 00FD         {
-                 ; 0000 00FE             EIMSK = 0b00000000;
-00017d e0e0      	LDI  R30,LOW(0)
-00017e bbed      	OUT  0x1D,R30
-                 ; 0000 00FF             putchar('l');
-00017f e6ec      	LDI  R30,LOW(108)
-                 _0x3E:
-000180 93ea      	ST   -Y,R30
-000181 dfae      	RCALL _putchar
-                 ; 0000 0100         }
-                 ; 0000 0101       }
+                 ; 0000 00F2 while (1)
+                 _0x35:
+                 ; 0000 00F3       {
+                 ; 0000 00F4         UDR0 = getchar();
+00016a df98      	RCALL _getchar
+00016b 93e0 00c6 	STS  198,R30
+                 ; 0000 00F5         if(UDR0 == 'c')
+00016d 91a0 00c6 	LDS  R26,198
+00016f 36a3      	CPI  R26,LOW(0x63)
+000170 f421      	BRNE _0x38
+                 ; 0000 00F6         {
+                 ; 0000 00F7             EIMSK = 0b00000011;
+000171 e0e3      	LDI  R30,LOW(3)
+000172 bbed      	OUT  0x1D,R30
+                 ; 0000 00F8             putchar('u');
+000173 e7e5      	LDI  R30,LOW(117)
+000174 c007      	RJMP _0x3D
+                 ; 0000 00F9         }
+                 ; 0000 00FA         else if(UDR0 == 'w')
+                 _0x38:
+000175 91a0 00c6 	LDS  R26,198
+000177 37a7      	CPI  R26,LOW(0x77)
+000178 f429      	BRNE _0x3A
+                 ; 0000 00FB         {
+                 ; 0000 00FC             EIMSK = 0b00000000;
+000179 e0e0      	LDI  R30,LOW(0)
+00017a bbed      	OUT  0x1D,R30
+                 ; 0000 00FD             putchar('l');
+00017b e6ec      	LDI  R30,LOW(108)
+                 _0x3D:
+00017c 93ea      	ST   -Y,R30
+00017d dfae      	RCALL _putchar
+                 ; 0000 00FE         }
+                 ; 0000 00FF       }
+                 _0x3A:
+00017e cfeb      	RJMP _0x35
+                 ; 0000 0100 }
                  _0x3B:
-000182 cfeb      	RJMP _0x36
-                 ; 0000 0102 }
-                 _0x3C:
-000183 cfff      	RJMP _0x3C
+00017f cfff      	RJMP _0x3B
                  	#ifndef __SLEEP_DEFINED__
                  	#endif
                  
@@ -1808,40 +1798,40 @@ E:\Smart key System\code\ECU_ENGINE\List\ecu_engine.asm(1114): warning: .cseg .d
                  	.CSEG
                  ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:1 WORDS
                  SUBOPT_0x0:
-000184 93ea      	ST   -Y,R30
-000185 93fa      	ST   -Y,R31
-000186 b7ef      	IN   R30,SREG
-000187 93ea      	ST   -Y,R30
-000188 9508      	RET
+000180 93ea      	ST   -Y,R30
+000181 93fa      	ST   -Y,R31
+000182 b7ef      	IN   R30,SREG
+000183 93ea      	ST   -Y,R30
+000184 9508      	RET
                  
                  ;OPTIMIZER ADDED SUBROUTINE, CALLED 4 TIMES, CODE SIZE REDUCTION:9 WORDS
                  SUBOPT_0x1:
-000189 ece8      	LDI  R30,LOW(200)
-00018a e0f0      	LDI  R31,HIGH(200)
-00018b 93fa      	ST   -Y,R31
-00018c 93ea      	ST   -Y,R30
-00018d 940c 018f 	JMP  _delay_ms
+000185 ece8      	LDI  R30,LOW(200)
+000186 e0f0      	LDI  R31,HIGH(200)
+000187 93fa      	ST   -Y,R31
+000188 93ea      	ST   -Y,R30
+000189 940c 018b 	JMP  _delay_ms
                  
                  
                  	.CSEG
                  _delay_ms:
-00018f 91e9      	ld   r30,y+
-000190 91f9      	ld   r31,y+
-000191 9630      	adiw r30,0
-000192 f039      	breq __delay_ms1
+00018b 91e9      	ld   r30,y+
+00018c 91f9      	ld   r31,y+
+00018d 9630      	adiw r30,0
+00018e f039      	breq __delay_ms1
                  __delay_ms0:
                 +
-000193 ed80     +LDI R24 , LOW ( 0x7D0 )
-000194 e097     +LDI R25 , HIGH ( 0x7D0 )
+00018f ed80     +LDI R24 , LOW ( 0x7D0 )
+000190 e097     +LDI R25 , HIGH ( 0x7D0 )
                 +__DELAY_USW_LOOP :
-000195 9701     +SBIW R24 , 1
-000196 f7f1     +BRNE __DELAY_USW_LOOP
+000191 9701     +SBIW R24 , 1
+000192 f7f1     +BRNE __DELAY_USW_LOOP
                  	__DELAY_USW 0x7D0
-000197 95a8      	wdr
-000198 9731      	sbiw r30,1
-000199 f7c9      	brne __delay_ms0
+000193 95a8      	wdr
+000194 9731      	sbiw r30,1
+000195 f7c9      	brne __delay_ms0
                  __delay_ms1:
-00019a 9508      	ret
+000196 9508      	ret
                  
                  ;END OF CODE MARKER
                  __END_OF_CODE:
@@ -1895,8 +1885,8 @@ Instructions used: 39 out of 116 (33.6%)
 ATmega328P memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x000336    786     36    822   32768   2.5%
+[.cseg] 0x000000 0x00032e    786     28    814   32768   2.5%
 [.dseg] 0x000100 0x000310      0     16     16    2303   0.7%
 [.eseg] 0x000000 0x000000      0      0      0    1024   0.0%
 
-Assembly complete, 0 errors, 9 warnings
+Assembly complete, 0 errors, 8 warnings

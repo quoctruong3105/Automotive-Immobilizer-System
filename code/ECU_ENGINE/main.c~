@@ -105,16 +105,7 @@ interrupt [EXT_INT0] void ext_int0_isr(void)
         Igt3 = On;
         delay_ms(200);
         Igt3 = Off;
-    }         
-//    for(i = 1; i < 5; i++)
-//    {
-//        if(curSparkPlug == SparkPlug[i])
-//        {
-//            Igt[i] = ON; 
-//            delay_ms(200);
-//            Igt[i] = OFF;  
-//        }
-//    }       
+    }                
 }
 
 // USART Receiver buffer

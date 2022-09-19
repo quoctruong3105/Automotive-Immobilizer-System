@@ -49,8 +49,6 @@
 
 unsigned int thuTuNo = 0;
 unsigned int curSparkPlug;
-unsigned int SparkPlug[4] = {SparkPlug1 , SparkPlug4, SparkPlug2, SparkPlug3};
-
 
 // Chose spark plug in turn
 interrupt [EXT_INT1] void ext_int1_isr(void)

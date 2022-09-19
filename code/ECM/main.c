@@ -101,7 +101,10 @@ interrupt [SPI_STC] void spi_isr(void)
             //Communicate with ECU ENGiNE
             putchar('c');
             UDR0 = getchar();
-            lcd_puts("Unlock Engine"); 
+            if(UDR0 == 'u')
+            {
+                lcd_puts("Unlock Engine");
+            } 
             SPCR=0x00;    
         }                             
         else
@@ -116,7 +119,10 @@ interrupt [SPI_STC] void spi_isr(void)
                 //Communicate with ECU ENGINE   
                 putchar('w');
                 UDR0 = getchar();
-                lcd_puts("Lock Engine"); 
+                if(UDR0 == 'l')
+                {
+                    lcd_puts("Lock Engine"); 
+                }
                 SPCR=0x00;
             }                          
         }

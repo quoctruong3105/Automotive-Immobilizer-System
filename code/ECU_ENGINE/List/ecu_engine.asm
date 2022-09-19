@@ -1110,15 +1110,13 @@ _tbl10_G100:
 _tbl16_G100:
 	.DB  0x0,0x10,0x0,0x1,0x10,0x0,0x1,0x0
 
-_0x3:
-	.DB  0x1,0x0,0x2,0x0,0x3,0x0,0x4
-_0x40:
+_0x3F:
 	.DB  0x0,0x0
 
 __GLOBAL_INI_TBL:
 	.DW  0x02
 	.DW  0x03
-	.DW  _0x40*2
+	.DW  _0x3F*2
 
 _0xFFFFFFFF:
 	.DW  0
@@ -1270,86 +1268,82 @@ __GLOBAL_INI_END:
 ;
 ;unsigned int thuTuNo = 0;
 ;unsigned int curSparkPlug;
-;unsigned int SparkPlug[4] = {SparkPlug1 , SparkPlug4, SparkPlug2, SparkPlug3};
-
-	.DSEG
-;
 ;
 ;// Chose spark plug in turn
 ;interrupt [EXT_INT1] void ext_int1_isr(void)
-; 0000 0039 {
+; 0000 0037 {
 
 	.CSEG
 _ext_int1_isr:
 	CALL SUBOPT_0x0
-; 0000 003A     thuTuNo++;
+; 0000 0038     thuTuNo++;
 	LDI  R30,LOW(1)
 	LDI  R31,HIGH(1)
 	__ADDWRR 3,4,30,31
-; 0000 003B     if(thuTuNo == 5)
+; 0000 0039     if(thuTuNo == 5)
 	LDI  R30,LOW(5)
 	LDI  R31,HIGH(5)
 	CP   R30,R3
 	CPC  R31,R4
-	BRNE _0x4
-; 0000 003C     {
-; 0000 003D         thuTuNo = 1;
+	BRNE _0x3
+; 0000 003A     {
+; 0000 003B         thuTuNo = 1;
 	LDI  R30,LOW(1)
 	LDI  R31,HIGH(1)
 	__PUTW1R 3,4
-; 0000 003E     }
-; 0000 003F     if(thuTuNo == 1)
-_0x4:
+; 0000 003C     }
+; 0000 003D     if(thuTuNo == 1)
+_0x3:
 	LDI  R30,LOW(1)
 	LDI  R31,HIGH(1)
 	CP   R30,R3
 	CPC  R31,R4
-	BRNE _0x5
-; 0000 0040     {
-; 0000 0041         curSparkPlug = SparkPlug1;
-	RJMP _0x3D
-; 0000 0042     }
-; 0000 0043     else if(thuTuNo == 2)
-_0x5:
+	BRNE _0x4
+; 0000 003E     {
+; 0000 003F         curSparkPlug = SparkPlug1;
+	RJMP _0x3C
+; 0000 0040     }
+; 0000 0041     else if(thuTuNo == 2)
+_0x4:
 	LDI  R30,LOW(2)
 	LDI  R31,HIGH(2)
 	CP   R30,R3
 	CPC  R31,R4
-	BRNE _0x7
-; 0000 0044     {
-; 0000 0045         curSparkPlug = SparkPlug4;
-	RJMP _0x3D
-; 0000 0046     }
-; 0000 0047     else if(thuTuNo == 3)
-_0x7:
+	BRNE _0x6
+; 0000 0042     {
+; 0000 0043         curSparkPlug = SparkPlug4;
+	RJMP _0x3C
+; 0000 0044     }
+; 0000 0045     else if(thuTuNo == 3)
+_0x6:
 	LDI  R30,LOW(3)
 	LDI  R31,HIGH(3)
 	CP   R30,R3
 	CPC  R31,R4
-	BRNE _0x9
-; 0000 0048     {
-; 0000 0049         curSparkPlug = SparkPlug2;
-	RJMP _0x3D
-; 0000 004A     }
-; 0000 004B     else if(thuTuNo == 4)
-_0x9:
+	BRNE _0x8
+; 0000 0046     {
+; 0000 0047         curSparkPlug = SparkPlug2;
+	RJMP _0x3C
+; 0000 0048     }
+; 0000 0049     else if(thuTuNo == 4)
+_0x8:
 	LDI  R30,LOW(4)
 	LDI  R31,HIGH(4)
 	CP   R30,R3
 	CPC  R31,R4
-	BRNE _0xB
-; 0000 004C     {
-; 0000 004D         curSparkPlug = SparkPlug3;
-_0x3D:
+	BRNE _0xA
+; 0000 004A     {
+; 0000 004B         curSparkPlug = SparkPlug3;
+_0x3C:
 	__PUTW1R 5,6
-; 0000 004E     }
-; 0000 004F }
-_0xB:
-	RJMP _0x3F
+; 0000 004C     }
+; 0000 004D }
+_0xA:
+	RJMP _0x3E
 ;
 ;// Ignition timing
 ;interrupt [EXT_INT0] void ext_int0_isr(void)
-; 0000 0053 {
+; 0000 0051 {
 _ext_int0_isr:
 	ST   -Y,R0
 	ST   -Y,R1
@@ -1364,74 +1358,74 @@ _ext_int0_isr:
 	ST   -Y,R31
 	IN   R30,SREG
 	ST   -Y,R30
-; 0000 0054     //unsigned int i;
-; 0000 0055     if(curSparkPlug == SparkPlug1)
+; 0000 0052     //unsigned int i;
+; 0000 0053     if(curSparkPlug == SparkPlug1)
 	LDI  R30,LOW(1)
 	LDI  R31,HIGH(1)
 	CP   R30,R5
 	CPC  R31,R6
-	BRNE _0xC
-; 0000 0056     {
-; 0000 0057         Igt1 = On;
+	BRNE _0xB
+; 0000 0054     {
+; 0000 0055         Igt1 = On;
 	SBI  0x5,0
-; 0000 0058         delay_ms(200);
+; 0000 0056         delay_ms(200);
 	CALL SUBOPT_0x1
-; 0000 0059         Igt1 = Off;
+; 0000 0057         Igt1 = Off;
 	CBI  0x5,0
-; 0000 005A     }
-; 0000 005B     else if(curSparkPlug == SparkPlug4)
-	RJMP _0x11
-_0xC:
+; 0000 0058     }
+; 0000 0059     else if(curSparkPlug == SparkPlug4)
+	RJMP _0x10
+_0xB:
 	LDI  R30,LOW(2)
 	LDI  R31,HIGH(2)
 	CP   R30,R5
 	CPC  R31,R6
-	BRNE _0x12
-; 0000 005C     {
-; 0000 005D         Igt4 = On;
+	BRNE _0x11
+; 0000 005A     {
+; 0000 005B         Igt4 = On;
 	SBI  0x5,3
-; 0000 005E         delay_ms(200);
+; 0000 005C         delay_ms(200);
 	CALL SUBOPT_0x1
-; 0000 005F         Igt4 = Off;
+; 0000 005D         Igt4 = Off;
 	CBI  0x5,3
-; 0000 0060     }
-; 0000 0061     else if(curSparkPlug == SparkPlug2)
-	RJMP _0x17
-_0x12:
+; 0000 005E     }
+; 0000 005F     else if(curSparkPlug == SparkPlug2)
+	RJMP _0x16
+_0x11:
 	LDI  R30,LOW(3)
 	LDI  R31,HIGH(3)
 	CP   R30,R5
 	CPC  R31,R6
-	BRNE _0x18
-; 0000 0062     {
-; 0000 0063         Igt2 = On;
+	BRNE _0x17
+; 0000 0060     {
+; 0000 0061         Igt2 = On;
 	SBI  0x5,1
-; 0000 0064         delay_ms(200);
+; 0000 0062         delay_ms(200);
 	CALL SUBOPT_0x1
-; 0000 0065         Igt2 = Off;
+; 0000 0063         Igt2 = Off;
 	CBI  0x5,1
-; 0000 0066     }
-; 0000 0067     else if(curSparkPlug == SparkPlug3)
-	RJMP _0x1D
-_0x18:
+; 0000 0064     }
+; 0000 0065     else if(curSparkPlug == SparkPlug3)
+	RJMP _0x1C
+_0x17:
 	LDI  R30,LOW(4)
 	LDI  R31,HIGH(4)
 	CP   R30,R5
 	CPC  R31,R6
-	BRNE _0x1E
-; 0000 0068     {
-; 0000 0069         Igt3 = On;
+	BRNE _0x1D
+; 0000 0066     {
+; 0000 0067         Igt3 = On;
 	SBI  0x5,2
-; 0000 006A         delay_ms(200);
+; 0000 0068         delay_ms(200);
 	CALL SUBOPT_0x1
-; 0000 006B         Igt3 = Off;
+; 0000 0069         Igt3 = Off;
 	CBI  0x5,2
-; 0000 006C     }
-; 0000 006D }
-_0x1E:
+; 0000 006A     }
+; 0000 006B }
 _0x1D:
-_0x17:
-_0x11:
+_0x1C:
+_0x16:
+_0x10:
 	LD   R30,Y+
 	OUT  SREG,R30
 	LD   R31,Y+
@@ -1462,101 +1456,101 @@ _0x11:
 ;
 ;// USART Receiver interrupt service routine
 ;interrupt [USART_RXC] void usart_rx_isr(void)
-; 0000 007E {
+; 0000 007C {
 _usart_rx_isr:
 	CALL SUBOPT_0x0
-; 0000 007F char status,data;
-; 0000 0080 status=UCSR0A;
+; 0000 007D char status,data;
+; 0000 007E status=UCSR0A;
 	ST   -Y,R17
 	ST   -Y,R16
 ;	status -> R17
 ;	data -> R16
 	LDS  R17,192
-; 0000 0081 data=UDR0;
+; 0000 007F data=UDR0;
 	LDS  R16,198
-; 0000 0082 if ((status & (FRAMING_ERROR | PARITY_ERROR | DATA_OVERRUN))==0)
+; 0000 0080 if ((status & (FRAMING_ERROR | PARITY_ERROR | DATA_OVERRUN))==0)
 	MOV  R30,R17
 	ANDI R30,LOW(0x1C)
-	BRNE _0x23
-; 0000 0083    {
-; 0000 0084    rx_buffer0[rx_wr_index0++]=data;
+	BRNE _0x22
+; 0000 0081    {
+; 0000 0082    rx_buffer0[rx_wr_index0++]=data;
 	MOV  R30,R8
 	INC  R8
 	LDI  R31,0
 	SUBI R30,LOW(-_rx_buffer0)
 	SBCI R31,HIGH(-_rx_buffer0)
 	ST   Z,R16
-; 0000 0085 #if RX_BUFFER_SIZE0 == 256
-; 0000 0086    // special case for receiver buffer size=256
-; 0000 0087    if (++rx_counter0 == 0)
-; 0000 0088       {
-; 0000 0089 #else
-; 0000 008A    if (rx_wr_index0 == RX_BUFFER_SIZE0) rx_wr_index0=0;
+; 0000 0083 #if RX_BUFFER_SIZE0 == 256
+; 0000 0084    // special case for receiver buffer size=256
+; 0000 0085    if (++rx_counter0 == 0)
+; 0000 0086       {
+; 0000 0087 #else
+; 0000 0088    if (rx_wr_index0 == RX_BUFFER_SIZE0) rx_wr_index0=0;
 	LDI  R30,LOW(8)
 	CP   R30,R8
-	BRNE _0x24
+	BRNE _0x23
 	CLR  R8
-; 0000 008B    if (++rx_counter0 == RX_BUFFER_SIZE0)
-_0x24:
+; 0000 0089    if (++rx_counter0 == RX_BUFFER_SIZE0)
+_0x23:
 	INC  R10
 	LDI  R30,LOW(8)
 	CP   R30,R10
-	BRNE _0x25
-; 0000 008C       {
-; 0000 008D       rx_counter0=0;
+	BRNE _0x24
+; 0000 008A       {
+; 0000 008B       rx_counter0=0;
 	CLR  R10
-; 0000 008E #endif
-; 0000 008F       rx_buffer_overflow0=1;
+; 0000 008C #endif
+; 0000 008D       rx_buffer_overflow0=1;
 	SBI  0x1E,0
-; 0000 0090       }
-; 0000 0091    }
-_0x25:
-; 0000 0092 }
-_0x23:
+; 0000 008E       }
+; 0000 008F    }
+_0x24:
+; 0000 0090 }
+_0x22:
 	LD   R16,Y+
 	LD   R17,Y+
-	RJMP _0x3F
+	RJMP _0x3E
 ;
 ;#ifndef _DEBUG_TERMINAL_IO_
 ;// Get a character from the USART Receiver buffer
 ;#define _ALTERNATE_GETCHAR_
 ;#pragma used+
 ;char getchar(void)
-; 0000 0099 {
+; 0000 0097 {
 _getchar:
-; 0000 009A char data;
-; 0000 009B while (rx_counter0==0);
+; 0000 0098 char data;
+; 0000 0099 while (rx_counter0==0);
 	ST   -Y,R17
 ;	data -> R17
-_0x28:
+_0x27:
 	TST  R10
-	BREQ _0x28
-; 0000 009C data=rx_buffer0[rx_rd_index0++];
+	BREQ _0x27
+; 0000 009A data=rx_buffer0[rx_rd_index0++];
 	MOV  R30,R7
 	INC  R7
 	LDI  R31,0
 	SUBI R30,LOW(-_rx_buffer0)
 	SBCI R31,HIGH(-_rx_buffer0)
 	LD   R17,Z
-; 0000 009D #if RX_BUFFER_SIZE0 != 256
-; 0000 009E if (rx_rd_index0 == RX_BUFFER_SIZE0) rx_rd_index0=0;
+; 0000 009B #if RX_BUFFER_SIZE0 != 256
+; 0000 009C if (rx_rd_index0 == RX_BUFFER_SIZE0) rx_rd_index0=0;
 	LDI  R30,LOW(8)
 	CP   R30,R7
-	BRNE _0x2B
+	BRNE _0x2A
 	CLR  R7
-; 0000 009F #endif
-; 0000 00A0 #asm("cli")
-_0x2B:
+; 0000 009D #endif
+; 0000 009E #asm("cli")
+_0x2A:
 	cli
-; 0000 00A1 --rx_counter0;
+; 0000 009F --rx_counter0;
 	DEC  R10
-; 0000 00A2 #asm("sei")
+; 0000 00A0 #asm("sei")
 	sei
-; 0000 00A3 return data;
+; 0000 00A1 return data;
 	MOV  R30,R17
 	LD   R17,Y+
 	RET
-; 0000 00A4 }
+; 0000 00A2 }
 ;#pragma used-
 ;#endif
 ;
@@ -1572,16 +1566,16 @@ _0x2B:
 ;
 ;// USART Transmitter interrupt service routine
 ;interrupt [USART_TXC] void usart_tx_isr(void)
-; 0000 00B4 {
+; 0000 00B2 {
 _usart_tx_isr:
 	CALL SUBOPT_0x0
-; 0000 00B5 if (tx_counter0)
+; 0000 00B3 if (tx_counter0)
 	TST  R11
-	BREQ _0x2C
-; 0000 00B6    {
-; 0000 00B7    --tx_counter0;
+	BREQ _0x2B
+; 0000 00B4    {
+; 0000 00B5    --tx_counter0;
 	DEC  R11
-; 0000 00B8    UDR0=tx_buffer0[tx_rd_index0++];
+; 0000 00B6    UDR0=tx_buffer0[tx_rd_index0++];
 	MOV  R30,R12
 	INC  R12
 	LDI  R31,0
@@ -1589,18 +1583,18 @@ _usart_tx_isr:
 	SBCI R31,HIGH(-_tx_buffer0)
 	LD   R30,Z
 	STS  198,R30
-; 0000 00B9 #if TX_BUFFER_SIZE0 != 256
-; 0000 00BA    if (tx_rd_index0 == TX_BUFFER_SIZE0) tx_rd_index0=0;
+; 0000 00B7 #if TX_BUFFER_SIZE0 != 256
+; 0000 00B8    if (tx_rd_index0 == TX_BUFFER_SIZE0) tx_rd_index0=0;
 	LDI  R30,LOW(8)
 	CP   R30,R12
-	BRNE _0x2D
+	BRNE _0x2C
 	CLR  R12
-; 0000 00BB #endif
-; 0000 00BC    }
-_0x2D:
-; 0000 00BD }
+; 0000 00B9 #endif
+; 0000 00BA    }
 _0x2C:
-_0x3F:
+; 0000 00BB }
+_0x2B:
+_0x3E:
 	LD   R30,Y+
 	OUT  SREG,R30
 	LD   R31,Y+
@@ -1612,25 +1606,25 @@ _0x3F:
 ;#define _ALTERNATE_PUTCHAR_
 ;#pragma used+
 ;void putchar(char c)
-; 0000 00C4 {
+; 0000 00C2 {
 _putchar:
-; 0000 00C5 while (tx_counter0 == TX_BUFFER_SIZE0);
+; 0000 00C3 while (tx_counter0 == TX_BUFFER_SIZE0);
 ;	c -> Y+0
-_0x2E:
+_0x2D:
 	LDI  R30,LOW(8)
 	CP   R30,R11
-	BREQ _0x2E
-; 0000 00C6 #asm("cli")
+	BREQ _0x2D
+; 0000 00C4 #asm("cli")
 	cli
-; 0000 00C7 if (tx_counter0 || ((UCSR0A & DATA_REGISTER_EMPTY)==0))
+; 0000 00C5 if (tx_counter0 || ((UCSR0A & DATA_REGISTER_EMPTY)==0))
 	TST  R11
-	BRNE _0x32
+	BRNE _0x31
 	LDS  R30,192
 	ANDI R30,LOW(0x20)
-	BRNE _0x31
-_0x32:
-; 0000 00C8    {
-; 0000 00C9    tx_buffer0[tx_wr_index0++]=c;
+	BRNE _0x30
+_0x31:
+; 0000 00C6    {
+; 0000 00C7    tx_buffer0[tx_wr_index0++]=c;
 	MOV  R30,R9
 	INC  R9
 	LDI  R31,0
@@ -1638,27 +1632,27 @@ _0x32:
 	SBCI R31,HIGH(-_tx_buffer0)
 	LD   R26,Y
 	STD  Z+0,R26
-; 0000 00CA #if TX_BUFFER_SIZE0 != 256
-; 0000 00CB    if (tx_wr_index0 == TX_BUFFER_SIZE0) tx_wr_index0=0;
+; 0000 00C8 #if TX_BUFFER_SIZE0 != 256
+; 0000 00C9    if (tx_wr_index0 == TX_BUFFER_SIZE0) tx_wr_index0=0;
 	LDI  R30,LOW(8)
 	CP   R30,R9
-	BRNE _0x34
+	BRNE _0x33
 	CLR  R9
-; 0000 00CC #endif
-; 0000 00CD    ++tx_counter0;
-_0x34:
+; 0000 00CA #endif
+; 0000 00CB    ++tx_counter0;
+_0x33:
 	INC  R11
-; 0000 00CE    }
-; 0000 00CF else
-	RJMP _0x35
-_0x31:
-; 0000 00D0    UDR0=c;
+; 0000 00CC    }
+; 0000 00CD else
+	RJMP _0x34
+_0x30:
+; 0000 00CE    UDR0=c;
 	LD   R30,Y
 	STS  198,R30
-; 0000 00D1 #asm("sei")
-_0x35:
+; 0000 00CF #asm("sei")
+_0x34:
 	sei
-; 0000 00D2 }
+; 0000 00D0 }
 	ADIW R28,1
 	RET
 ;#pragma used-
@@ -1666,99 +1660,99 @@ _0x35:
 ;
 ;
 ;void main(void)
-; 0000 00D8 {
+; 0000 00D6 {
 _main:
-; 0000 00D9 
-; 0000 00DA // Crystal Oscillator division factor: 1
-; 0000 00DB #pragma optsize-
-; 0000 00DC CLKPR=0x80;
+; 0000 00D7 
+; 0000 00D8 // Crystal Oscillator division factor: 1
+; 0000 00D9 #pragma optsize-
+; 0000 00DA CLKPR=0x80;
 	LDI  R30,LOW(128)
 	STS  97,R30
-; 0000 00DD CLKPR=0x00;
+; 0000 00DB CLKPR=0x00;
 	LDI  R30,LOW(0)
 	STS  97,R30
-; 0000 00DE #ifdef _OPTIMIZE_SIZE_
-; 0000 00DF #pragma optsize+
-; 0000 00E0 #endif
-; 0000 00E1 
-; 0000 00E2 // External Interrupt(s) initialization
-; 0000 00E3 EICRA=0x0A;
+; 0000 00DC #ifdef _OPTIMIZE_SIZE_
+; 0000 00DD #pragma optsize+
+; 0000 00DE #endif
+; 0000 00DF 
+; 0000 00E0 // External Interrupt(s) initialization
+; 0000 00E1 EICRA=0x0A;
 	LDI  R30,LOW(10)
 	STS  105,R30
-; 0000 00E4 EIMSK=0x00;
+; 0000 00E2 EIMSK=0x00;
 	LDI  R30,LOW(0)
 	OUT  0x1D,R30
-; 0000 00E5 EIFR=0x03;
+; 0000 00E3 EIFR=0x03;
 	LDI  R30,LOW(3)
 	OUT  0x1C,R30
-; 0000 00E6 
-; 0000 00E7 // USART initialization
-; 0000 00E8 UCSR0A=0x00;
+; 0000 00E4 
+; 0000 00E5 // USART initialization
+; 0000 00E6 UCSR0A=0x00;
 	LDI  R30,LOW(0)
 	STS  192,R30
-; 0000 00E9 UCSR0B=0xD8;
+; 0000 00E7 UCSR0B=0xD8;
 	LDI  R30,LOW(216)
 	STS  193,R30
-; 0000 00EA UCSR0C=0x06;
+; 0000 00E8 UCSR0C=0x06;
 	LDI  R30,LOW(6)
 	STS  194,R30
-; 0000 00EB UBRR0H=0x00;
+; 0000 00E9 UBRR0H=0x00;
 	LDI  R30,LOW(0)
 	STS  197,R30
-; 0000 00EC UBRR0L=0x08;
+; 0000 00EA UBRR0L=0x08;
 	LDI  R30,LOW(8)
 	STS  196,R30
-; 0000 00ED 
-; 0000 00EE // Out put Ignition signal
-; 0000 00EF DDRB = 0b11111111;
+; 0000 00EB 
+; 0000 00EC // Out put Ignition signal
+; 0000 00ED DDRB = 0b11111111;
 	LDI  R30,LOW(255)
 	OUT  0x4,R30
-; 0000 00F0 PORTB = 0b00000000;
+; 0000 00EE PORTB = 0b00000000;
 	LDI  R30,LOW(0)
 	OUT  0x5,R30
-; 0000 00F1 
-; 0000 00F2 #asm("sei")
+; 0000 00EF 
+; 0000 00F0 #asm("sei")
 	sei
-; 0000 00F3 
-; 0000 00F4 while (1)
-_0x36:
-; 0000 00F5       {
-; 0000 00F6         UDR0 = getchar();
+; 0000 00F1 
+; 0000 00F2 while (1)
+_0x35:
+; 0000 00F3       {
+; 0000 00F4         UDR0 = getchar();
 	RCALL _getchar
 	STS  198,R30
-; 0000 00F7         if(UDR0 == 'c')
+; 0000 00F5         if(UDR0 == 'c')
 	LDS  R26,198
 	CPI  R26,LOW(0x63)
-	BRNE _0x39
-; 0000 00F8         {
-; 0000 00F9             EIMSK = 0b00000011;
+	BRNE _0x38
+; 0000 00F6         {
+; 0000 00F7             EIMSK = 0b00000011;
 	LDI  R30,LOW(3)
 	OUT  0x1D,R30
-; 0000 00FA             putchar('u');
+; 0000 00F8             putchar('u');
 	LDI  R30,LOW(117)
-	RJMP _0x3E
-; 0000 00FB         }
-; 0000 00FC         else if(UDR0 == 'w')
-_0x39:
+	RJMP _0x3D
+; 0000 00F9         }
+; 0000 00FA         else if(UDR0 == 'w')
+_0x38:
 	LDS  R26,198
 	CPI  R26,LOW(0x77)
-	BRNE _0x3B
-; 0000 00FD         {
-; 0000 00FE             EIMSK = 0b00000000;
+	BRNE _0x3A
+; 0000 00FB         {
+; 0000 00FC             EIMSK = 0b00000000;
 	LDI  R30,LOW(0)
 	OUT  0x1D,R30
-; 0000 00FF             putchar('l');
+; 0000 00FD             putchar('l');
 	LDI  R30,LOW(108)
-_0x3E:
+_0x3D:
 	ST   -Y,R30
 	RCALL _putchar
-; 0000 0100         }
-; 0000 0101       }
+; 0000 00FE         }
+; 0000 00FF       }
+_0x3A:
+	RJMP _0x35
+; 0000 0100 }
 _0x3B:
-	RJMP _0x36
-; 0000 0102 }
-_0x3C:
-	RJMP _0x3C
+	RJMP _0x3B
 	#ifndef __SLEEP_DEFINED__
 	#define __SLEEP_DEFINED__
 	.EQU __se_bit=0x01

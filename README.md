@@ -1,5 +1,5 @@
 # Automotive-Immobilizer-System
-+ Note: In reality, Immobilizer uses a chip key that contain the ID. But in this project, chip key will be replaced by keypad that request user enter the ID.
++ Note: In reality, Immobilizer uses a chip key that contain the ID. But in this project, chip key will be replaced by keypad that request user enter the ID. The LEDs are used to indicate the ignition signal of the engine in turn.
 + Knownlegde used in this project: 
   - Microcontroller: External Interrupts, UART, SPI, declare registers. 
   - C language: loop, if-else structure, one-dimensional array, two-dimensional array.

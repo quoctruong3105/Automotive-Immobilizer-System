@@ -1,6 +1,6 @@
 # Automotive-Immobilizer-System
 + Note: In reality, Immobilizer uses a chip key that contains the ID. But in this project, the chip key will be replaced by a keypad that requests the user enter the ID. The LEDs are used to indicate the ignition signal of the engine in turn.
-+ This is a self-study project to practice and improve skills.
++ This is a self-study project to improve C programming skills and AVR microcontroller knowledge.
 + Tasks: Simulate circuit diagram on Proteus, build code in Codevision and load hex file to AVR microcontroller, test system and debug,...
 + Knowledge used in this project: 
   - Microcontroller: External Interrupts, UART, SPI, declare registers. 
